@@ -109,7 +109,7 @@ This paper fills the literature gap on oblique cutting by investigating free ort
 \label{ExpSet}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure 1, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, h) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table 1 shows the cutting conditions, each is repeated 3 times.
+A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure 1, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, h) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table \ref{tab:CutCond} shows the cutting conditions, each is repeated 3 times.
 
 \begin{figure}[h]
 \centering
@@ -118,12 +118,28 @@ A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free ort
 \label{ExpSetup}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\caption{Tables 1 -- Cutting conditions of the study}
-\includegraphics[width = 8cm]{Figures/Tab1}
-\label{Tab1}
-\end{figure}
+%
+\begin{table}[!h]
+\begin{center}
+\caption{\label{tab:CutCond} Cutting conditions of the study}
+\begin{tabular}{ll}
+\hline\noalign{\smallskip}
+Parameter  & Values\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+Cutting speed, $v_c$ (m/min) & 5, 7.5, 10, 20, 30, 40\\
+Uncut chip thickness, $h$ (\textmu{}m) & 40, 60, 80\\
+Cutting edge inclination, $\lambda_s$ & 0, 6\\
+Width of the workpiece (mm) & 1\\
+Length of the workpiece (mm) & 10\\
+Width of the cutting edge (mm) & 6 (1.1 in the model)\\
+Cutting edge radius, $r_\beta$ (\textmu{}m) & 20\\
+Rake angle, $\gamma_0$ (\textdegree{}) & 15\\
+Clearance angle, $\alpha_0$ (\textdegree{}) & 2\\
+\noalign{\smallskip}\hline
+\end{tabular}
+\end{center}
+\end{table}
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Finite element model}
@@ -169,25 +185,52 @@ A Sigmoid activation function is used for all neurons in the two hidden layers. 
 \subsection{Sensitivity study of the results to mass scaling}
 
 FE modelling of the cutting process is very expensive in CPU computation time because of the coupling on many nonlinear phenomena and the large amount of tiny finite elements. Mass scaling (MS) is introduced in the model to reduce the CPU computation time while checking that it does not influence the results (forces and energies) via a mass scaling sensitivity study.
-MS factors, ${MS}_f$, ranging from 1E6 (theoretical scaling of CPU time of 1000) to 1 (no scaling) have been used for one cutting condition ($\lambda_s$ = 0°, $v_c$ = 30 m/min and h = 60 µm). Table 2 gives the results normalised ($\hat{x}$) by these of the model without MS (x). As expected, actual speed-up does not increase linearly with the ${MS}_f$, but it is still significant. ${MS}_f$ of 1E6 leads to unstable computation and ${MS}_f$ of 1E5 results in erratic forces evolutions. These results are confirmed by high values of the kinetic ($KE$) on internal ($IE$) energies ratio (it should not exceed a few \%). A ${MS}_f$ value of 1E3 is selected as it provides a good balance between computation time reduction and impact on forces (considered in the analysis), while keeping $\frac{KE}{IE}$ below 1\%. To provide an order of magnitude of CPU computation time, between 10 h and 50 h are needed on 4 cores of an Intel i7-5700 HQ at 3.48 GHz.
+MS factors, ${MS}_f$, ranging from 1E6 (theoretical scaling of CPU time of 1000) to 1 (no scaling) have been used for one cutting condition ($\lambda_s$ = 0°, $v_c$ = 30 m/min and h = 60 µm). Table \ref{tab:MS} gives the results normalised ($\hat{x}$) by these of the model without MS (x). As expected, actual speed-up does not increase linearly with the ${MS}_f$, but it is still significant. ${MS}_f$ of 1E6 leads to unstable computation and ${MS}_f$ of 1E5 results in erratic forces evolutions. These results are confirmed by high values of the kinetic ($KE$) on internal ($IE$) energies ratio (it should not exceed a few \%). A ${MS}_f$ value of 1E3 is selected as it provides a good balance between computation time reduction and impact on forces (considered in the analysis), while keeping $\frac{KE}{IE}$ below 1\%. To provide an order of magnitude of CPU computation time, between 10 h and 50 h are needed on 4 cores of an Intel i7-5700 HQ at 3.48 GHz.
 
-\begin{figure}[h]
-\centering
-\caption{Tables 2 -- MS sensitivity study (selected ${MS}_f$ in bold)}
-\includegraphics[width = 8cm]{Figures/Tab2}
-\label{Tab2}
-\end{figure}
+%
+\begin{table}[!h]
+\begin{center}
+\caption{\label{tab:MS} MS sensitivity study (selected $MS_f$ in bold)}
+\begin{tabular}{lllll}
+\hline\noalign{\smallskip}
+$MS_f$  & Speed-up & $\hat{F_c}$ & $\hat{F_f}$ & $\frac{KE}{IE}$ (\%)\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+1 & 1 & 1 & 1 & 2.3E-4\\
+1E2 & 9 & 1.006 & 0.982 & 2.2E-2\\
+\textbf{1E3} & \textbf{21} & \textbf{1.008} & \textbf{0.940} & \textbf{2.2E-1}\\
+1E4 & 61 & 1.012 & 0.921 & 2.4\\
+1E5 & 173 & Erratic & Erratic & 22\\
+1E6 & 207 & Unstable & Unstable & 58\\
+\noalign{\smallskip}\hline
+\end{tabular}
+\end{center}
+\end{table}
+%
 
 \subsection{Sensitivity study of the results to the number of neurons}
 
-The number of neurons on the hidden layers may influence the results. A sensitivity study on the number of neurons for the first hidden layer is carried out to select the ANN providing the best balance between CPU computation time and quality of the results. The study shows no influence on the forces when compared to the built-in Johnson-Cook model, only computation time is influenced (Table 3). A first hidden layer with 9 neurons is therefore selected.
+The number of neurons on the hidden layers may influence the results. A sensitivity study on the number of neurons for the first hidden layer is carried out to select the ANN providing the best balance between CPU computation time and quality of the results. The study shows no influence on the forces when compared to the built-in Johnson-Cook model, only computation time is influenced (Table \ref{tab:NbNeurons}). A first hidden layer with 9 neurons is therefore selected.
 
-\begin{figure}[h]
-\centering
-\caption{Tables 3 -- Sensitivity to the number of neurons of the first layer, $\zeta$ (selection in bold)}
-\includegraphics[width = 8cm]{Figures/Tab3}
-\label{Tab3}
-\end{figure}
+%
+\begin{table}[!h]
+\begin{center}
+\caption{\label{tab:NbNeurons} Sensitivity to the number of neurons of the first layer, $\zeta$
+(selection in bold)}
+\begin{tabular}{llll}
+\hline\noalign{\smallskip}
+$\zeta$  & Time increase (\%) & $\hat{F_c}$ & $\hat{F_f}$\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+Built-in & 0 & 1.000 & 1.000\\
+\textbf{9} & \textbf{6} & \textbf{1.000} & \textbf{0.999}\\
+11 & 6 & 1.001 & 1.000\\
+13 & 7 & 1.000 & 0.998\\
+15 & 8 & 1.001 & 1.001\\
+17 & 10 & 1.000 & 1.000\\
+\noalign{\smallskip}\hline
+\end{tabular}
+\end{center}
+\end{table}
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental and numerical results}
@@ -198,23 +241,37 @@ Experimental and numerical forces are filtered with a second-order low-pass Bess
 
 \begin{figure}[h]
 \centering
-\includegraphics{Figures/Fc}
-\caption{Comparison of experimental (E) and numerical (N) cutting forces}
-\label{Fc}
+\includegraphics{Figures/Fx_0}
+\caption{Comparison of experimental (E) and numerical (N) cutting forces at 0°}
+\label{Fx_0}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-\includegraphics{Figures/Ff}
-\caption{Comparison of experimental (E) and numerical (N) feed forces}
-\label{Ff}
+\includegraphics{Figures/Fx_6}
+\caption{Comparison of experimental (E) and numerical (N) cutting forces at 6°}
+\label{Fx_6}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-\includegraphics{Figures/Fp}
-\caption{Comparison of experimental (E) and numerical (N) passive forces}
-\label{Fp}
+\includegraphics{Figures/Fy_0}
+\caption{Comparison of experimental (E) and numerical (N) feed forces at 0°}
+\label{Fy_0}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics{Figures/Fy_6}
+\caption{Comparison of experimental (E) and numerical (N) feed forces at 6°}
+\label{Fy_6}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics{Figures/Fz_6}
+\caption{Comparison of experimental (E) and numerical (N) passive forces at 6°}
+\label{Fz_6}
 \end{figure}
 
 The increase of the cutting force with the uncut chip thickness is clearly observed in Figure 5 for both experimental and numerical results at the 2 inclination angles, as well as the decrease of the force with the increase in the cutting speed. This shows temperature softening domination on strain rate hardening for Ti6Al4V and that it is accurately modelled. The increase of the inclination angle from 0° to 6° reduces the cutting force; this is well captured by the model. For cutting speeds of 20-40 m/min, $F_c$ is almost constant for 40 µm and 60 µm, while it slightly decreases for 80 µm; this small stabilisation is less marked for the model.
