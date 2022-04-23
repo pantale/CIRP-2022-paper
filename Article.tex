@@ -70,7 +70,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-Modelling of the cutting process needs to move from a 2D to a 3D configuration to get closer to industrial applications. The study introduces a predictive 3D finite element model of free orthogonal and oblique cutting with an ANN-based material constitutive model and experimental validation in strictly the same conditions (cutting and geometrical). Predictive performance of the model is high for the forces in the 3 directions and the chip thickness ratio on all 36 cutting conditions (including 2 inclination angles). Accuracy of the main cutting force is excellent: the mean difference with the experiments is 3%.
+Modelling of the cutting process needs to move from a 2D to a 3D configuration to get closer to industrial applications. The study introduces a predictive 3D finite element model of free orthogonal and oblique cutting with an ANN-based material constitutive model and experimental validation in strictly the same conditions (cutting and geometrical). Predictive performance of the model is high for the forces in the 3 directions and the chip thickness ratio on all 36 cutting conditions (including 2 inclination angles). Accuracy of the main cutting force is excellent: the mean difference with the experiments is 3\%.
 
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,9 +99,13 @@ Oblique cutting \sep Finite element method (FEM) \sep Predictive model \sep Arti
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Selection of the tools and the cutting conditions in machining, but also comprehension of the influence of the process parameters on the quality of a component and its optimisation, are still difficult to achieve because of the high level of complexity and linked nonlinear involved phenomena. In the frame of digital manufacturing and Industry 4.0, modelling of the cutting process supports them, while remaining a challenging task. As highlighted by Arrazola et al. \cite{arrazola_recent_2013}, most finite element (FE) models are developed in 2D (orthogonal cutting configuration usually) although industrial applications require a 3D modelling.
+
 The experimental configuration to validate a model must be as close as possible to the simulation. Few configurations in strictly orthogonal cutting conditions are found. Broaching \cite{abouridouane_friction_2021} or milling \cite{sela_measurement_2021, ducobu_experimental_2015} machines are mostly used; dedicated machines such as in \cite{afrasiabi_numerical-experimental_2021} allow for high cutting speed. Free oblique cutting with a straight cutting edge has not been studied yet: all the efforts have been focussing on orthogonal cutting (mostly for 2D validation).
+
 Lagrangian and Eulerian formulations are the most used for FE modelling of the cutting process. The Coupled Eulerian-Lagrangian (CEL) formulation has recently been successfully applied to the modelling of cutting (2D orthogonal configuration): it provides accurate results with a realistic chip shape and no mesh distortion \cite{ducobu_application_2016}. First applications in 3D are found in recent works \cite{xu_simulation_2021, ducobu_finite_2017, ambrosio_new_2022, vovk_finite_2020, hardt_three_2021}. They mostly cover (free) orthogonal cutting, while free oblique cutting still needs to be investigated.
+
 The behaviour of the machined material is one of the key aspects of a FE model \cite{arrazola_recent_2013, melkote_advances_2017}. Research is very intense in this field, which leads to a growing number of material constitutive models ranging from empirical to physical models \cite{melkote_advances_2017}. The empirical Johnson-Cook (JC) model \cite{johnson_constitutive_1983} is still the most used so far. One issue of material behaviour modelling for cutting simulation is the identification of the model parameters, moreover as the experimental equipment does not allow to reach the high levels of strains, strain rates and temperature of machining \cite{melkote_advances_2017}. Inverse identification is an alternative, but the uniqueness of the solution is not always guaranteed \cite{arrazola_recent_2013}. It uses optimisation or Artificial Intelligence based methods \cite{melkote_advances_2017}, such as in \cite{hardt_investigations_2021}, and requires defining the analytical expression of the constitutive model.
+
 This paper fills the literature gap on oblique cutting by investigating free orthogonal and oblique 3D cutting configurations from both the experimental and the numerical points of view. An Artificial Neural Network (ANN), introduced in \cite{pantale_efficient_2022}, is implemented in a FE cutting model for the first time instead of the analytical JC law. A broad range of cutting speeds (6), uncut chip thicknesses (3) and inclination angles (2) resulting in 36 different conditions are considered to demonstrate the predictive ability of the FE model for fundamental variables. No assumptions are made about the geometry of the machined workpiece in the model (i.e. its width is the same as in the experiments), while keeping computation time relevant for industrial applications. The developments apply to the titanium alloy Ti6Al4V.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +113,7 @@ This paper fills the literature gap on oblique cutting by investigating free ort
 \label{ExpSet}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure 1, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, h) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table \ref{tab:CutCond} shows the cutting conditions, each is repeated 3 times.
+A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, $h$) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table \ref{tab:CutCond} shows the cutting conditions, each is repeated 3 times.
 
 \begin{figure}[h]
 \centering
@@ -148,7 +152,7 @@ Clearance angle, $\alpha_0$ (\textdegree{}) & 2\\
 
 \subsection{Modelling choices}
 
-The CEL formulation is adopted to model the dry free orthogonal and oblique cutting tests with Abaqus/Explicit 2020. The 3D model is composed of a fixed Lagrangian tool and a Eulerian workpiece (Figure 2). Chip formation occurs by plastic flow across the Eulerian domain with no mesh distortion. No damage properties are necessary since continuous chips are formed, removing modelling assumptions.
+The CEL formulation is adopted to model the dry free orthogonal and oblique cutting tests with Abaqus/Explicit 2020. The 3D model is composed of a fixed Lagrangian tool and a Eulerian workpiece (Figure \ref{BC}). Chip formation occurs by plastic flow across the Eulerian domain with no mesh distortion. The Eulerian formulation enables to form chips without damage properties, removing modelling assumptions. These two characteristics contribute to cutting models providing accurate results and realistic chips \cite{ducobu_application_2016}.
 
 \begin{figure}[h]
 \centering
@@ -157,7 +161,7 @@ The CEL formulation is adopted to model the dry free orthogonal and oblique cutt
 \label{BC}
 \end{figure}
 
-As shown in Figure 3, the full width of the workpiece (1 mm) is modelled. To allow chip formation and side flow, the Eulerian domain is wider (it includes the volume in which material can move). The volume above the initial workpiece is also meshed with Eulerian elements for the same reasons. As in the experiments and to fulfil the hypothesis of free orthogonal and oblique cutting, the tool is wider than the workpiece. The models are the same for both inclination angles: they differ by the rotation of the tool of 6° about Y axis as in the experiments (Figure 3).
+As shown in Figure \ref{FEConfig}, the full width of the workpiece (1 mm) is modelled. To allow chip formation and side flow, the Eulerian domain is wider (it includes the volume in which material can move). The volume above the initial workpiece is also meshed with Eulerian elements for the same reasons. As in the experiments and to fulfil the hypothesis of free orthogonal and oblique cutting, the tool is wider than the workpiece (it is of 1.1 mm in the model and of 6 mm in the experiments). It is very important to stress that the models are the same for both inclination angles: they only differ by the rotation of the tool of 6° about Y axis as in the experiments (Figure \ref{FEConfig}). This, coupled to the absence of assumptions when developing the models, contributes to make the models predictive.
 
 \begin{figure}[h]
 \centering
@@ -166,8 +170,51 @@ As shown in Figure 3, the full width of the workpiece (1 mm) is modelled. To all
 \label{FEConfig}
 \end{figure}
 
-According to a previous mesh sensitivity study in orthogonal cutting with CEL \cite{ducobu_finite_2017}, elements edge size is 5 µm in the plane parallel to the cutting speed. In the direction perpendicular to this plane, it is 5 µm in areas close to the lateral boundaries of the Eulerian domain and 50 µm in the middle of the workpiece. To reduce computation time, the size of the model depends on the value of the uncut chip thickness. This results in a Eulerian domain (EC3D8RT elements) composed of 216,550 to 273,350 nodes and a Langrangian domain (C3D8T elements) of 4,650 nodes.
-The tungsten carbide tool with TiN coating is assumed to be linear elastic. The Ti6Al4V workpiece is assumed to be thermo-elasto-viscoplastic (isotropic) and inelastic heat fraction is 0.9. Following the experimental results of Rech et al. \cite{rech_characterisation_2013}, Coulomb’s friction is assumed to occur at the tool-workpiece interface and both friction and heat partition coefficients depend on the cutting speed; limiting shear stress is included. All the friction energy is converted into heat. Room temperature of 293 K is imposed on the upper and right surfaces of the tool and on the left and bottom surfaces of the workpiece (Figure 2). Radiation and convection are assumed to occur on the rake and clearance faces of the tool. Initial temperature of the tool and the workpiece is set to room temperature (293 K).
+According to a previous mesh sensitivity study in orthogonal cutting with CEL \cite{ducobu_finite_2017}, elements edge size is 5 µm in the plane parallel to the cutting speed. In the direction perpendicular to this plane, it is 5 µm in areas close to the lateral boundaries of the Eulerian domain and 50 µm in the middle of the workpiece. To reduce computation time, the size of the model depends on the value of the uncut chip thickness. This results in a Eulerian domain (EC3D8RT linear 3D Eulerian elements with 8 nodes, coupled mechanical-thermal behaviour and reduced integration) composed of 216,550 to 273,350 nodes and a Langrangian domain (C3D8T linear 3D Lagrangian elements with 8 nodes, coupled mechanical-thermal behaviour and reduced integration) of 4,650 nodes.
+
+The Ti6Al4V workpiece is assumed to be thermo-elasto-viscoplastic (isotropic) and inelastic heat fraction is 0.9. The tungsten carbide tool with TiN coating is assumed to be linear elastic. Material properties are provided in Table \ref{tab:prop}.
+
+%
+\begin{table}[!h]
+\begin{center}
+\caption{\label{tab:prop} Materials properties \cite{Seo2004, Granta, Milosevic}}
+\begin{tabular}{lll}
+\hline\noalign{\smallskip}
+Young's modulus, $E$ (GPa) & Ti6Al4V & 113.8$^*$\\
+ & WC & 650\\
+Poisson's ratio, $\nu$ & Ti6Al4V & 0.34\\
+ & WC & 0.2\\
+Density, $\rho$ (kg/m$^3$) & Ti6Al4V & 4,430\\
+ & WC & 14,850\\
+Conductivity, $k$ (W/mK) & Ti6Al4V & 6.3$^*$\\
+ & WC & 100\\
+Expansion, $\alpha$ (K$^{-1}$) & Ti6Al4V & 8.6 e$^{-6*}$\\
+ & WC & 5 e$^{-6}$\\
+Specific heat, $c_{p}$ (J/KgK) & Ti6Al4V & 531$^*$\\
+ & WC & 202\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+JC constitutive model & $A$ (MPa) & 997.9\\
+ & $B$ (MPa) & 653.1\\
+ & $C$ & 0.0198\\
+ & $m$ & 0.7\\
+ & $n$ & 0.45\\
+ & $\dot{\varepsilon}_{0}$ (s$^{-1}$) & 1\\
+ & $T_{\text{room}}$ (K) & 293\\
+ & $T_{\text{melt}}$ (K) & 1873\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+\end{tabular}
+\end{center}
+\vspace{-0.4cm}$^*$: Dependence to the temperature, value provided at 293 K
+\end{table}
+%
+
+Following the experimental results of Rech et al. \cite{rech_characterisation_2013}, Coulomb's friction is assumed to occur at the tool-workpiece interface and both friction and heat partition coefficients depend on the cutting speed. Limiting shear stress is included + equa. All the friction energy is converted into heat. Table XX shows the friction parameters adopted in this study.
+
+%
+Table friction
+%
+
+Room temperature of 293 K is imposed on the upper and right surfaces of the tool and on the left and bottom surfaces of the workpiece (Figure 2). Radiation and convection are assumed to occur on the rake and clearance faces of the tool. Initial temperature of the tool and the workpiece is set to room temperature (293 K).
 
 \subsection{Material constitutive model of Ti6Al4V}
 
