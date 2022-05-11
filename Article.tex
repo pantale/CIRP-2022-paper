@@ -45,6 +45,9 @@
 \usetikzlibrary{patterns}
 \usepackage{pgfplots}
 
+%\newcommand{\e}[1]{\exp\left({#1}\right)}
+\newcommand{\e}[1]{\mbox{\ensuremath{\mathrm{e}^{#1}}}}
+\DeclareMathOperator{\sigmoid}{sig}
 
 \journal{CIRP Journal of Manufacturing Science and Technology}
 
@@ -218,7 +221,11 @@ Room temperature of 293 K is imposed on the upper and right surfaces of the tool
 
 \subsection{Material constitutive model of Ti6Al4V}
 
-The material constitutive model of Ti6Al4V used for all numerical simulations is a thermo-elasto-viscoplastic law using a flow criterion based on an ANN implemented in the Abaqus/Explicit code via a VUHARD Fortran routine as proposed by Pantalé et al. in \cite{pantale_efficient_2022}. Several neural network architectures are tested, for the metal cutting simulations, having 2 hidden layers with a variable number of neurons for the first hidden layer ($\zeta$ = 9 to 17) and 7 neurons for the second hidden layer, 3 inputs (plastic strain, $\varepsilon^p$, plastic strain rate, ${\dot{\varepsilon}}^p$, and temperature, T) and one output (the yield stress, $\sigma^y$). The global architecture of this kind of ANN is given in Figure 4.
+The constitutive model of the Ti6Al4V material used in all the numerical simulations proposed in section \ref{sec:ExpNumResults} is a thermo-elasto-viscoplastic law using a flow criterion based on an artificial neural network (ANN) identified for the selected material and implemented in the Abaqus/Explicit code via a Fortran routine VUHARD as proposed by Pantalé et al. in \cite{pantale_efficient_2022}.
+The principle of this approach consists in replacing the analytical formulation of the flow law, based on a Johnson-Cook or Zerilli-Armstrong type model, and allowing the calculation of the flow stress $\sigma^y$ as a function of the plastic strain $\varepsilon^p$, of the plastic strain rate, ${\dot{\varepsilon}}^p$, and of the temperature $T$, by a multi-layer ANN serving as universal approximator. Thus, we can directly identify the parameters of the neural network from the experimental data without having to postulate a behavioural model, which simplifies the procedure and allows more flexibility in the definition of the model.
+The proposed approach also allows, as shown in Pantalé et al. \cite{pantale_efficient_2022}, to compute the derivatives of the flow stress $\sigma^y$ with respect to the three input variables of the model, a necessary step to implement this model as a flow law in the form of a VUHARD subroutine in the Abaqus/Explicit FEM code.
+
+In order to verify the influence of the complexity of the neural network on the numerical results of the simulation and the computing time, several architectures of ANN are tested thereafter. The chosen global architecture has 2 hidden layers with a variable number of neurons for the first hidden layer ($\zeta$ = 9 to 17) and 7 neurons for the second hidden layer, 3 inputs (plastic strain, $\varepsilon^p$, plastic strain rate, ${\dot{\varepsilon}}^p$, and temperature, T) and one output (the yield stress, $\sigma^y$). The global architecture of this kind of ANN is given in Figure \ref{ANN}.
 
 \begin{figure}[h]
 \centering
@@ -227,7 +234,11 @@ The material constitutive model of Ti6Al4V used for all numerical simulations is
 \label{ANN}
 \end{figure}
 
-A Sigmoid activation function is used for all neurons in the two hidden layers. Because of the large number of parameters (from 122 to 210 for 9 and 17 neurons for the first hidden layer, respectively); the 5 sets of ANN parameters are provided in \cite{pantale_coefficients_2022}.
+A Sigmoid activation function defined by equation (\ref{eq:sigmoid}) is used for all neurons in the two hidden layers, but none is used for the output neuron.
+\begin{equation}
+\sigmoid(x)=\frac{1}{1 + \e{-x}}\label{eq:sigmoid}
+\end{equation}
+Because of the large number of identified parameters for the whole ANN model (from 122 to 210 for 9 and 17 neurons for the first hidden layer, respectively); the 5 sets of ANN parameters used in this publication are provided in \cite{pantale_coefficients_2022}.
 
 \subsection{Sensitivity study of the results to mass scaling}
 
@@ -280,7 +291,7 @@ Built-in & 0 & 1.000 & 1.000\\
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experimental and numerical results}
+\section{Experimental and numerical results\label{sec:ExpNumResults}}
 \label{Results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
