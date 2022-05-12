@@ -44,10 +44,15 @@
 \usepackage{tikz}
 \usetikzlibrary{patterns}
 \usepackage{pgfplots}
+\usepackage{accents}
 
 %\newcommand{\e}[1]{\exp\left({#1}\right)}
 \newcommand{\e}[1]{\mbox{\ensuremath{\mathrm{e}^{#1}}}}
 \DeclareMathOperator{\sigmoid}{sig}
+\newcommand{\lay}[1]{^{(#1)}}
+\newcommand{\dotp}{\boldsymbol{\cdot}}
+\newcommand{\w}{\mbox{\large\ensuremath{\mathsf{w}}}}
+\newcommand{\mdot}[1]{\accentset{\mbox{\bfseries .}}{#1}}
 
 \journal{CIRP Journal of Manufacturing Science and Technology}
 
@@ -225,7 +230,7 @@ The constitutive model of the Ti6Al4V material used in all the numerical simulat
 The principle of this approach consists in replacing the analytical formulation of the flow law, based on a Johnson-Cook or Zerilli-Armstrong type model, and allowing the calculation of the flow stress $\sigma^y$ as a function of the plastic strain $\varepsilon^p$, of the plastic strain rate, ${\dot{\varepsilon}}^p$, and of the temperature $T$, by a multi-layer ANN serving as universal approximator. Thus, we can directly identify the parameters of the neural network from the experimental data without having to postulate a behavioural model, which simplifies the procedure and allows more flexibility in the definition of the model.
 The proposed approach also allows, as shown in Pantalé et al. \cite{pantale_efficient_2022}, to compute the derivatives of the flow stress $\sigma^y$ with respect to the three input variables of the model, a necessary step to implement this model as a flow law in the form of a VUHARD subroutine in the Abaqus/Explicit FEM code.
 
-In order to verify the influence of the complexity of the neural network on the numerical results of the simulation and the computing time, several architectures of ANN are tested thereafter. The chosen global architecture has 2 hidden layers with a variable number of neurons for the first hidden layer ($\zeta$ = 9 to 17) and 7 neurons for the second hidden layer, 3 inputs (plastic strain, $\varepsilon^p$, plastic strain rate, ${\dot{\varepsilon}}^p$, and temperature, T) and one output (the yield stress, $\sigma^y$). The global architecture of this kind of ANN is given in Figure \ref{ANN}.
+In order to verify the influence of the complexity of the neural network on the numerical results of the simulation and the computing time, several architectures of ANN are tested thereafter. The chosen global architecture has 2 hidden layers with a variable number of neurons for the first hidden layer ($\zeta$ = 9 to 17) and 7 neurons for the second hidden layer, 3 inputs (plastic strain, $\varepsilon^p$, plastic strain rate, ${\dot{\varepsilon}}^p$, and temperature, $T$) and one output (the yield stress, $\sigma^y$). The global architecture of this kind of ANN is given in Figure \ref{ANN} for 9 neurons in the first hidden layer. Conforming to Pantalé et al. \cite{pantale_efficient_2022}, this ANN is referred after the terminology ANN 3-9-7-1-sig, because it has 3 inputs, 9 neurons in the first hidden layer, 7 neurons in the second hidden layer, 1 output and a sigmoid activation function.
 
 \begin{figure}[h]
 \centering
@@ -234,11 +239,49 @@ In order to verify the influence of the complexity of the neural network on the 
 \label{ANN}
 \end{figure}
 
-A Sigmoid activation function defined by equation (\ref{eq:sigmoid}) is used for all neurons in the two hidden layers, but none is used for the output neuron.
+The main advantage of this approach (the use of an ANN), after the training phase, is that the output $\sigma^y$ of the network is related to the inputs $\varepsilon^p$, ${\dot{\varepsilon}}^p$, and $T$ through equations (\ref{eq:ANN-preprocess}) to (\ref{eq:ANN-vonMises}). The first step is to scale the input data to the interval $[0,1]$ using the following equation:
+
+\begin{equation}
+\overrightarrow{x} =
+\begin{cases}
+x_1 = \frac{\varepsilon^p - [\varepsilon^p]_{min}}{[\varepsilon^p]_{max} - [\varepsilon^p]_{min}}\\
+x_2 = \frac{\ln(\mdot{\varepsilon}^p)-[\ln(\mdot{\varepsilon}^p)]_{min}}{[\ln(\mdot{\varepsilon}^p)]_{max}-[\ln(\mdot{\varepsilon}^p)]_{min}}\label{eq:ANN-preprocess}\\
+x_3 = \frac{T-[T]_{min}}{[T]_{max}-[T]_{min}}
+\end{cases}
+\end{equation}
+
+The output of the neurons in the first hidden layer are given by the following equation:
+
+\begin{equation}
+\overrightarrow{y_1} = \sigmoid\left(\w_1 \dotp \overrightarrow{x}+ \overrightarrow{b_1}\right)\label{eq:ANN-y1}
+\end{equation}
+where, a $\sigmoid()$ is the sigmoid activation function defined by equation (\ref{eq:sigmoid}).
 \begin{equation}
 \sigmoid(x)=\frac{1}{1 + \e{-x}}\label{eq:sigmoid}
 \end{equation}
-Because of the large number of identified parameters for the whole ANN model (from 122 to 210 for 9 and 17 neurons for the first hidden layer, respectively); the 5 sets of ANN parameters used in this publication are provided in \cite{pantale_coefficients_2022}.
+
+Then, the output of the neurons in the second hidden layer are given by equation (\ref{eq:ANN-y2}).
+\begin{equation}
+\overrightarrow{y_2} = \sigmoid\left(\w_2 \dotp \overrightarrow{y_1}+ \overrightarrow{b_2}\right)\label{eq:ANN-y2}
+\end{equation}
+
+So, that, the output of the ANN is therefore given by equation (\ref{eq:ANN-vonMises}).
+\begin{equation}
+\sigma =  \left([\sigma]_{max}-[\sigma]_{min}\right) \left(\overrightarrow{w}^T \dotp \overrightarrow{y_2} + b\right) + [\sigma]_{min} \label{eq:ANN-vonMises}
+\end{equation}
+
+In equations (\ref{eq:ANN-preprocess}) to (\ref{eq:ANN-vonMises}), quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$ are given by the training procedure of the ANN. Corresponding values for an ANN containing 9 neurons in the first hidden layer are reported in \ref{sec:appendix-1}. Quantities $[\ ]_{min}$ and $[\ ]_{max}$  are the boundaries of the range of the corresponding field during the training phase, values are also given in \ref{sec:appendix-1}.
+
+Because of the large number of identified parameters for all the ANN models (from 114 to 202 for 9 and 17 neurons for the first hidden layer, respectively); the other 4 sets of ANN parameters used in this publication can be found in \cite{pantale_coefficients_2022}.
+
+
+
+
+
+
+
+
+
 
 \subsection{Sensitivity study of the results to mass scaling}
 
@@ -355,8 +398,97 @@ Accurate evaluation of fundamental variables in 3D with the absence of tuning of
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% The Appendices part is started with the command \appendix;
 %%% appendix sections are then done as normal sections
-%%% \appendix
+\appendix
 %
+\section{Coefficients of the ANN 3-9-7-1-sig\label{sec:appendix-1}}
+
+In this Appendix, we present the values obtained after the training phase of an ANN containing 9 neurons in the first hidden layer and 7 neurons in the second hidden layer.
+
+The training of the neural network was performed using a data set containing $3\,430$ data points defined by:
+\begin{itemize}
+\item $70$ values for $\varepsilon^p\in[0.0,3.0]$, so that $[\varepsilon^p]_{min}=0$ and $[\varepsilon^p]_{max}=3$.
+\item $7$ plastic strain rates $\mdot{\varepsilon}^p\in[1, 10, 50, 500, 5\,000, 50\,000, 500\,000]$, so that $[\ln(\mdot{\varepsilon}^p)]_{min}=0$ and $[\ln(\mdot{\varepsilon}^p)]_{max}=13.12236$.
+\item  $7$ temperatures $T\in[293, 400, 500, 700, 900, 1\,200, 1\,500]$, so that $[T]_{min}=293$ and $[T]_{max}=1\ 500$.
+\end{itemize}
+
+Stresses in the training dataset ranges from $[\sigma]_{min}=171.44$ to $[\sigma]_{max}=2606.12$.
+The results of the training process are given below for quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$.
+
+\begin{equation*}
+\w_1=\left[
+\begin{array}{rrr}
+ -0.87229 & -0.47675 & -1.50771\\
+ -0.95762 & -0.25619 &  1.65222\\
+ -10.61660 &  0.22003 & -0.11539\\
+  3.67883 &  0.37146 & -1.51069\\
+ -63.39468 &  0.15466 & -0.95431\\
+  0.54807 &  0.25959 & -5.44355\\
+ -1.33883 &  0.36089 & -1.66735\\
+ -0.68125 &  1.02121 &  0.34242\\
+  0.08740 &  0.18764 & -41.32542
+\end{array}\right]
+\end{equation*}
+
+\begin{equation*}
+\w_2^T=\left[
+\begin{array}{rrrrrrrrr}
+  1.66285 & -0.59645 & -3.17333 &  0.20706 &  1.18760 &  2.01250 & -0.82147\\
+ -0.26237 & -2.50330 & -1.45941 & -1.59833 &  4.05169 & -1.21146 &  1.05610\\
+ -0.12958 &  0.67119 & -5.85989 & -2.55061 &  4.85245 &  4.31876 &  3.24070\\
+ -2.12890 &  0.68296 &  0.71183 &  0.81706 & -0.09405 &  0.34919 & -1.41223\\
+  2.33631 & -0.08089 &  14.65789 &  0.12531 &  23.66363 &  2.55872 &  2.15338\\
+  0.11567 &  1.77629 & -1.80448 &  0.77825 & -1.58254 &  1.90442 &  1.23152\\
+  1.49265 &  0.41821 & -3.53803 & -0.48705 & -0.23671 &  0.75887 & -0.37441\\
+  0.95990 &  0.69041 &  0.43870 &  0.28393 & -1.40101 & -0.64569 & -0.38964\\
+  5.89937 & -0.13015 &  2.99264 &  1.78534 & -3.90189 &  1.17494 & -3.78854
+\end{array}\right]
+\end{equation*}
+
+\begin{equation*}
+\overrightarrow{w}=\left[
+\begin{array}{r}
+  0.34701\\
+  1.42079\\
+ -0.96564\\
+  0.62467\\
+ -0.56322\\
+  0.40960\\
+ -0.42810
+\end{array}\right]
+\end{equation*}
+
+\begin{equation*}
+\overrightarrow{b_1}=\left[
+\begin{array}{r}
+  2.57141\\
+  0.22673\\
+ -1.16985\\
+ -0.11246\\
+ -0.82210\\
+ -2.13264\\
+  0.78794\\
+  1.20434\\
+ -3.48681
+\end{array}\right]
+\end{equation*}
+
+\begin{equation*}
+\overrightarrow{b_2}=\left[
+\begin{array}{r}
+ -0.36566\\
+ -1.14445\\
+ -0.79065\\
+ -0.50670\\
+  1.30136\\
+  0.04521\\
+ -0.29995
+\end{array}\right]
+\end{equation*}
+
+\begin{equation*}
+b=0.04213
+\end{equation*}
+
 %%% \section{}
 %%% \label{}
 %
