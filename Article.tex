@@ -34,7 +34,6 @@
 
 \usepackage{amsmath}
 \usepackage{textcomp} %Permet d'introduire un mu droit à l'aide de \textmu en dehors de l'environnement math
-\usepackage{color}
 
 \usepackage[leftbars]{changebar} %Pour insérer une barre de mise à  jour (à  gauche car [leftbars]) au moyen de \begin{changebar} %Ne fonctionne pas pour passer du DVI au pdf -> utiliser DV -> PS -> pdf
 
@@ -53,6 +52,25 @@
 \newcommand{\dotp}{\boldsymbol{\cdot}}
 \newcommand{\w}{\mbox{\large\ensuremath{\mathsf{w}}}}
 \newcommand{\mdot}[1]{\accentset{\mbox{\bfseries .}}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% To insert highlighted comments with author's name
+% Adapted from https://www.willusher.io/latex/2018/07/10/comments-in-latex
+\usepackage{soul} %Can also be used to highlight text with \hl{highlighted text}
+\usepackage{color}
+\definecolor{VWpink}{RGB}{255,113,206} % VaporWave color palette
+\definecolor{VWblue}{RGB}{1,205,254} % VaporWave color palette
+\definecolor{VWgreen}{RGB}{5,255,161} % VaporWave color palette
+\definecolor{VWviolet}{RGB}{185,103,255} % VaporWave color palette
+\definecolor{VWyellow}{RGB}{255,251,150} % VaporWave color palette
+% We also use DeclareRobustCommand instead of
+% NewCommand so that the command will work in captions
+% and other contexts as well.
+\DeclareRobustCommand{\FD}[1]{ {\begingroup\sethlcolor{VWgreen}\textcolor{black}{\hl{[FD:] #1}}\endgroup} }
+\DeclareRobustCommand{\OP}[1]{ {\begingroup\sethlcolor{VWblue}\textcolor{black}{\hl{[OP:] #1}}\endgroup} }
+% The highlight comment command can then be used in the text: \FD{This is an example comment!}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \journal{CIRP Journal of Manufacturing Science and Technology}
 
@@ -79,6 +97,8 @@
 \begin{abstract}
 
 Modelling of the cutting process needs to move from a 2D to a 3D configuration to get closer to industrial applications. The study introduces a predictive 3D finite element model of free orthogonal and oblique cutting with an ANN-based material constitutive model and experimental validation in strictly the same conditions (cutting and geometrical). Predictive performance of the model is high for the forces in the 3 directions and the chip thickness ratio on all 36 cutting conditions (including 2 inclination angles). Accuracy of the main cutting force is excellent: the mean difference with the experiments is 3\%.
+
+\FD{Review and update}
 
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,13 +236,13 @@ JC constitutive model & $A$ (MPa) & 997.9\\
 \end{table}
 %
 
-Following the experimental results of Rech et al. \cite{rech_characterisation_2013}, Coulomb's friction is assumed to occur at the tool-workpiece interface and both friction and heat partition coefficients depend on the cutting speed. Limiting shear stress is included + equa. All the friction energy is converted into heat. Table XX shows the friction parameters adopted in this study.
+Following the experimental results of Rech et al. \cite{rech_characterisation_2013}, Coulomb's friction is assumed to occur at the tool-workpiece interface and both friction and heat partition coefficients depend on the cutting speed. \hl{Limiting shear stress is included + equa. All the friction energy is converted into heat. Table XX shows the friction parameters adopted in this study.}
 
 %
-Table friction
+\hl{Table friction}
 %
 
-Room temperature of 293 K is imposed on the upper and right surfaces of the tool and on the left and bottom surfaces of the workpiece (Figure 2). Radiation and convection are assumed to occur on the rake and clearance faces of the tool. Initial temperature of the tool and the workpiece is set to room temperature (293 K).
+Room temperature of 293 K is imposed on the upper and right surfaces of the tool and on the left and bottom surfaces of the workpiece (Figure 2). Radiation and convection are assumed to occur on the rake and clearance faces of the tool. Initial temperature of the tool and the workpiece is set to room temperature (293 K). \hl{+ info coefficients}
 
 \subsection{Material constitutive model of Ti6Al4V}
 
