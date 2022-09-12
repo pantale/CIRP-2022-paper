@@ -79,7 +79,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frontmatter}
 
-\title{Predictive 3D modelling of free oblique cutting of Ti6Al4V titanium alloy and experimental validation for a wide range of conditions}
+\title{Predictive 3D modelling of free oblique cutting of Ti6Al4V titanium alloy and experimental validation for a wide range of conditions\\ \FD{Include AI?}}
 
 \author[1]{F. Ducobu\corref{cor1}}
 \ead{Francois.Ducobu@umons.ac.be}
@@ -126,22 +126,22 @@ Oblique cutting \sep Finite element method (FEM) \sep Predictive model \sep Arti
 \label{Intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Selection of the tools and the cutting conditions in machining, but also comprehension of the influence of the process parameters on the quality of a component and its optimisation, are still difficult to achieve because of the high level of complexity and linked nonlinear involved phenomena. In the frame of digital manufacturing and Industry 4.0, modelling of the cutting process supports them, while remaining a challenging task. As highlighted by Arrazola et al. \cite{arrazola_recent_2013}, most finite element (FE) models are developed in 2D (orthogonal cutting configuration usually) although industrial applications require a 3D modelling.
+Selection of the tools and the cutting conditions in machining, but also comprehension of the influence of the process parameters on the quality of a component and its optimisation, are still difficult to achieve because of the high level of complexity and linked nonlinear phenomena. In the frame of digital manufacturing and Industry 4.0, modelling of the cutting process supports them, while remaining a challenging task. As highlighted by Arrazola et al. \cite{arrazola_recent_2013}, most finite element (FE) models are developed in 2D (orthogonal cutting configuration usually) although industrial applications require a 3D modelling.
 
-The experimental configuration to validate a model must be as close as possible to the simulation. Few configurations in strictly orthogonal cutting conditions are found. Broaching \cite{abouridouane_friction_2021} or milling \cite{sela_measurement_2021, ducobu_experimental_2015} machines are mostly used; dedicated machines such as in \cite{afrasiabi_numerical-experimental_2021} allow for high cutting speed. Free oblique cutting with a straight cutting edge has not been studied yet: all the efforts have been focussing on orthogonal cutting (mostly for 2D validation).
+\FD{Include info from lit. rev. CIRP GA v6 from here...}The experimental configuration to validate a model must be as close as possible to the simulation. Few configurations in strictly orthogonal cutting conditions are found. Broaching \cite{abouridouane_friction_2021} or milling \cite{sela_measurement_2021, ducobu_experimental_2015} machines are mostly used; dedicated machines such as in \cite{afrasiabi_numerical-experimental_2021} allow for high cutting speed. Free oblique cutting with a straight cutting edge has not been studied yet: all the efforts have been focussing on orthogonal cutting (mostly for 2D validation).
 
 Lagrangian and Eulerian formulations are the most used for FE modelling of the cutting process. The Coupled Eulerian-Lagrangian (CEL) formulation has recently been successfully applied to the modelling of cutting (2D orthogonal configuration): it provides accurate results with a realistic chip shape and no mesh distortion \cite{ducobu_application_2016}. First applications in 3D are found in recent works \cite{xu_simulation_2021, ducobu_finite_2017, ambrosio_new_2022, vovk_finite_2020, hardt_three_2021}. They mostly cover (free) orthogonal cutting, while free oblique cutting still needs to be investigated.
 
-The behaviour of the machined material is one of the key aspects of a FE model \cite{arrazola_recent_2013, melkote_advances_2017}. Research is very intense in this field, which leads to a growing number of material constitutive models ranging from empirical to physical models \cite{melkote_advances_2017}. The empirical Johnson-Cook (JC) model \cite{johnson_constitutive_1983} is still the most used so far. One issue of material behaviour modelling for cutting simulation is the identification of the model parameters, moreover as the experimental equipment does not allow to reach the high levels of strains, strain rates and temperature of machining \cite{melkote_advances_2017}. Inverse identification is an alternative, but the uniqueness of the solution is not always guaranteed \cite{arrazola_recent_2013}. It uses optimisation or Artificial Intelligence based methods \cite{melkote_advances_2017}, such as in \cite{hardt_investigations_2021}, and requires defining the analytical expression of the constitutive model.
+The behaviour of the machined material is one of the key aspects of a FE model \cite{arrazola_recent_2013, melkote_advances_2017}. Research is very intense in this field, which leads to a growing number of material constitutive models ranging from empirical to physical models \cite{melkote_advances_2017}. The empirical Johnson-Cook (JC) model \cite{johnson_constitutive_1983} is still the most used so far. \FD{Add JC equa here with OP's notation + com} One issue of material behaviour modelling for cutting simulation is the identification of the model parameters, moreover as the experimental equipment does not allow to reach the high levels of strains, strain rates and temperature of machining \cite{melkote_advances_2017}. \FD{Add info for inverse identification from CMMO: Klocke, etc.} Inverse identification is an alternative, but the uniqueness of the solution is not always guaranteed \cite{arrazola_recent_2013}. It uses optimisation or Artificial Intelligence based methods \cite{melkote_advances_2017}, such as in \cite{hardt_investigations_2021}, and requires defining the analytical expression of the constitutive model.\FD{... to here}
 
-This paper fills the literature gap on oblique cutting by investigating free orthogonal and oblique 3D cutting configurations from both the experimental and the numerical points of view. An Artificial Neural Network (ANN), introduced in \cite{pantale_efficient_2022}, is implemented in a FE cutting model for the first time instead of the analytical JC law. A broad range of cutting speeds (6), uncut chip thicknesses (3) and inclination angles (2) resulting in 36 different conditions are considered to demonstrate the predictive ability of the FE model for fundamental variables. No assumptions are made about the geometry of the machined workpiece in the model (i.e. its width is the same as in the experiments), while keeping computation time relevant for industrial applications. The developments apply to the titanium alloy Ti6Al4V.
+This paper fills the literature gap on oblique cutting by investigating free orthogonal and oblique 3D cutting configurations from both the experimental and the numerical points of view. An Artificial Neural Network (ANN), introduced in \cite{pantale_efficient_2022}, is implemented in a FE cutting model for the first time instead of the analytical JC law. A broad range of cutting speeds (6), uncut chip thicknesses (3) and inclination angles (2) resulting in 36 different conditions are considered to demonstrate the predictive ability of the FE model for fundamental variables. No assumption is made about the geometry of the machined workpiece in the model (i.e. its width is the same as in the experiments), while keeping computation time relevant for industrial applications. The developments apply to the titanium alloy Ti6Al4V.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental setup}
 \label{ExpSet}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, $h$) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table \ref{tab:CutCond} shows the cutting conditions, each is repeated 3 times.
+A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, $h$) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the relative orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table \ref{tab:CutCond} shows the cutting conditions, each is repeated 3 times. \FD{Add infos valeur effort: mean, filter, etc. + get info from section 4}
 
 \begin{figure}[h]
 \centering
@@ -160,7 +160,7 @@ Parameter  & Values\\
 \noalign{\smallskip}\hline\noalign{\smallskip}
 Cutting speed, $v_c$ (m/min) & 5, 7.5, 10, 20, 30, 40\\
 Uncut chip thickness, $h$ (\textmu{}m) & 40, 60, 80\\
-Cutting edge inclination, $\lambda_s$ & 0, 6\\
+Cutting edge inclination, $\lambda_s$ (\textdegree{}) & 0, 6\\
 Width of the workpiece (mm) & 1\\
 Length of the workpiece (mm) & 10\\
 Width of the cutting edge (mm) & 6 (1.1 in the model)\\
@@ -198,7 +198,7 @@ As shown in Figure \ref{FEConfig}, the full width of the workpiece (1 mm) is mod
 \label{FEConfig}
 \end{figure}
 
-According to a previous mesh sensitivity study in orthogonal cutting with CEL \cite{ducobu_finite_2017}, elements edge size is 5 µm in the plane parallel to the cutting speed. In the direction perpendicular to this plane, it is 5 µm in areas close to the lateral boundaries of the Eulerian domain and 50 µm in the middle of the workpiece. To reduce computation time, the size of the model depends on the value of the uncut chip thickness. This results in a Eulerian domain (EC3D8RT linear 3D Eulerian elements with 8 nodes, coupled mechanical-thermal behaviour and reduced integration) composed of 216,550 to 273,350 nodes and a Langrangian domain (C3D8T linear 3D Lagrangian elements with 8 nodes, coupled mechanical-thermal behaviour and reduced integration) of 4,650 nodes.
+According to a previous mesh sensitivity study in orthogonal cutting with CEL \cite{ducobu_finite_2017}, elements edge size is 5 µm in the plane parallel to the cutting speed. In the direction perpendicular to this plane, it is 5 µm in areas close to the lateral boundaries of the Eulerian domain and 50 µm in the middle of the workpiece. To reduce computation time, the size of the model depends on the value of the uncut chip thickness. This results in a Eulerian domain (EC3D8RT linear 3D Eulerian elements with 8 nodes, coupled mechanical-thermal behaviour and reduced integration) composed of 216,550 to 273,350 nodes and a Langrangian domain (C3D8T linear 3D Lagrangian elements with 8 nodes, coupled mechanical-thermal behaviour) of 4,650 nodes.
 
 The Ti6Al4V workpiece is assumed to be thermo-elasto-viscoplastic (isotropic) and inelastic heat fraction is 0.9. The tungsten carbide tool with TiN coating is assumed to be linear elastic. Material properties are provided in Table \ref{tab:prop}.
 
@@ -222,7 +222,7 @@ Specific heat, $c_{p}$ (J/KgK) & Ti6Al4V & 531$^*$\\
  & WC & 202\\
 \noalign{\smallskip}\hline\noalign{\smallskip}
 JC constitutive model & $A$ (MPa) & 997.9\\
- & $B$ (MPa) & 653.1\\
+\FD{Comment this choice of JC para} & $B$ (MPa) & 653.1\\
  & $C$ & 0.0198\\
  & $m$ & 0.7\\
  & $n$ & 0.45\\
@@ -246,11 +246,11 @@ Room temperature of 293 K is imposed on the upper and right surfaces of the tool
 
 \subsection{Material constitutive model of Ti6Al4V}
 
-The constitutive model of the Ti6Al4V material used in all the numerical simulations proposed in section \ref{sec:ExpNumResults} is a thermo-elasto-viscoplastic law using a flow criterion based on an artificial neural network (ANN) identified for the selected material and implemented in the Abaqus/Explicit code via a Fortran routine VUHARD as proposed by Pantalé et al. in \cite{pantale_efficient_2022}.
-The principle of this approach consists in replacing the analytical formulation of the flow law, based on a Johnson-Cook or Zerilli-Armstrong type model, and allowing the calculation of the flow stress $\sigma^y$ as a function of the plastic strain $\varepsilon^p$, of the plastic strain rate, ${\dot{\varepsilon}}^p$, and of the temperature $T$, by a multi-layer ANN serving as universal approximator. Thus, we can directly identify the parameters of the neural network from the experimental data without having to postulate a behavioural model, which simplifies the procedure and allows more flexibility in the definition of the model.
+The constitutive model of the Ti6Al4V material used in all the numerical simulations proposed in section \ref{sec:ExpNumResults} is a thermo-elasto-viscoplastic law using a flow criterion based on an ANN identified for the selected material and implemented in the Abaqus/Explicit code via a Fortran routine VUHARD as proposed by Pantalé et al. in \cite{pantale_efficient_2022}.
+The principle of this approach consists in replacing the analytical formulation of the flow law, based on a Johnson-Cook or Zerilli-Armstrong type model, and allowing the calculation of the flow stress $\sigma^y$ as a function of the plastic strain $\varepsilon^p$, of the plastic strain rate, ${\dot{\varepsilon}}^p$, and of the temperature $T$, by a multi-layer ANN serving as universal approximator. Thus, the parameters of the neural network can directly be identified from the experimental data without having to postulate a behavioural model, which simplifies the procedure and allows more flexibility in the definition of the model.
 The proposed approach also allows, as shown in Pantalé et al. \cite{pantale_efficient_2022}, to compute the derivatives of the flow stress $\sigma^y$ with respect to the three input variables of the model, a necessary step to implement this model as a flow law in the form of a VUHARD subroutine in the Abaqus/Explicit FEM code.
 
-In order to verify the influence of the complexity of the neural network on the numerical results of the simulation and the computing time, several architectures of ANN are tested thereafter. The chosen global architecture has 2 hidden layers with a variable number of neurons for the first hidden layer ($\zeta$ = 9 to 17) and 7 neurons for the second hidden layer, 3 inputs (plastic strain, $\varepsilon^p$, plastic strain rate, ${\dot{\varepsilon}}^p$, and temperature, $T$) and one output (the yield stress, $\sigma^y$). The global architecture of this kind of ANN is given in Figure \ref{ANN} for 9 neurons in the first hidden layer. Conforming to Pantalé et al. \cite{pantale_efficient_2022}, this ANN is referred after the terminology ANN 3-9-7-1-sig, because it has 3 inputs, 9 neurons in the first hidden layer, 7 neurons in the second hidden layer, 1 output and a sigmoid activation function.
+In order to verify the influence of the complexity of the neural network on the numerical results of the simulation and the computing time, several architectures of ANN are tested thereafter (in \ref{subsec:nberneu}). The chosen global architecture has 2 hidden layers with a variable number of neurons for the first hidden layer ($\zeta$ = 9 to 17) and 7 neurons for the second hidden layer, 3 inputs (plastic strain, $\varepsilon^p$, plastic strain rate, ${\dot{\varepsilon}}^p$, and temperature, $T$) and one output (the yield stress, $\sigma^y$). The global architecture of this kind of ANN is given in Figure \ref{ANN} for 9 neurons in the first hidden layer. Conforming to Pantalé et al. \cite{pantale_efficient_2022}, this ANN is referred after the terminology ANN 3-9-7-1-sig, because it has 3 inputs, 9 neurons in the first hidden layer, 7 neurons in the second hidden layer, 1 output and a sigmoid activation function.
 
 \begin{figure}[h]
 \centering
@@ -270,29 +270,29 @@ x_3 = \frac{T-[T]_{min}}{[T]_{max}-[T]_{min}}
 \end{cases}
 \end{equation}
 
-The output of the neurons in the first hidden layer are given by the following equation:
+The outputs of the neurons in the first hidden layer are given by the following equation:
 
 \begin{equation}
 \overrightarrow{y_1} = \sigmoid\left(\w_1 \dotp \overrightarrow{x}+ \overrightarrow{b_1}\right)\label{eq:ANN-y1}
 \end{equation}
-where, a $\sigmoid()$ is the sigmoid activation function defined by equation (\ref{eq:sigmoid}).
+where, $\sigmoid()$ is the sigmoid activation function defined by equation (\ref{eq:sigmoid}):
 \begin{equation}
 \sigmoid(x)=\frac{1}{1 + \e{-x}}\label{eq:sigmoid}
 \end{equation}
 
-Then, the output of the neurons in the second hidden layer are given by equation (\ref{eq:ANN-y2}).
+Then, the output of the neurons in the second hidden layer are given by equation (\ref{eq:ANN-y2}):
 \begin{equation}
 \overrightarrow{y_2} = \sigmoid\left(\w_2 \dotp \overrightarrow{y_1}+ \overrightarrow{b_2}\right)\label{eq:ANN-y2}
 \end{equation}
 
-So, that, the output of the ANN is therefore given by equation (\ref{eq:ANN-vonMises}).
+So, \FD{Olivier: remove?}\hl{that,} the output of the ANN is therefore given by equation (\ref{eq:ANN-vonMises}).
 \begin{equation}
 \sigma =  \left([\sigma]_{max}-[\sigma]_{min}\right) \left(\overrightarrow{w}^T \dotp \overrightarrow{y_2} + b\right) + [\sigma]_{min} \label{eq:ANN-vonMises}
 \end{equation}
 
 In equations (\ref{eq:ANN-preprocess}) to (\ref{eq:ANN-vonMises}), quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$ are given by the training procedure of the ANN. Corresponding values for an ANN containing 9 neurons in the first hidden layer are reported in \ref{sec:appendix-1}. Quantities $[\ ]_{min}$ and $[\ ]_{max}$  are the boundaries of the range of the corresponding field during the training phase, values are also given in \ref{sec:appendix-1}.
 
-Because of the large number of identified parameters for all the ANN models (from 114 to 202 for 9 and 17 neurons for the first hidden layer, respectively); the other 4 sets of ANN parameters used in this publication can be found in \cite{pantale_coefficients_2022}.
+Because of the large number of identified parameters for all the ANN models (from 114 to 202 for 9 and 17 neurons for the first hidden layer, respectively); the other 4 sets of ANN parameters used in this publication can be found in \cite{pantale_coefficients_2022}.\FD{Inclure dans corps du texte puisque article normal?}
 
 
 
@@ -306,7 +306,7 @@ Because of the large number of identified parameters for all the ANN models (fro
 \subsection{Sensitivity study of the results to mass scaling}
 
 FE modelling of the cutting process is very expensive in CPU computation time because of the coupling on many nonlinear phenomena and the large amount of tiny finite elements. Mass scaling (MS) is introduced in the model to reduce the CPU computation time while checking that it does not influence the results (forces and energies) via a mass scaling sensitivity study.
-MS factors, ${MS}_f$, ranging from 1E6 (theoretical scaling of CPU time of 1000) to 1 (no scaling) have been used for one cutting condition ($\lambda_s$ = 0°, $v_c$ = 30 m/min and h = 60 µm). Table \ref{tab:MS} gives the results normalised ($\hat{x}$) by these of the model without MS (x). As expected, actual speed-up does not increase linearly with the ${MS}_f$, but it is still significant. ${MS}_f$ of 1E6 leads to unstable computation and ${MS}_f$ of 1E5 results in erratic forces evolutions. These results are confirmed by high values of the kinetic ($KE$) on internal ($IE$) energies ratio (it should not exceed a few \%). A ${MS}_f$ value of 1E3 is selected as it provides a good balance between computation time reduction and impact on forces (considered in the analysis), while keeping $\frac{KE}{IE}$ below 1\%. To provide an order of magnitude of CPU computation time, between 10 h and 50 h are needed on 4 cores of an Intel i7-5700 HQ at 3.48 GHz.
+MS factors, ${MS}_f$, ranging from 1E6 (theoretical scaling of CPU time of 1000\FD{sqrt MSF}) to 1 (no scaling) have been used for one cutting condition ($\lambda_s$ = 0°, $v_c$ = 30 m/min and $h$ = 60 µm). Table \ref{tab:MS} gives the results normalised ($\hat{x}$) by these of the model without MS \hl{(x)}.\FD{+ equa and explain that effort is mean, filtered, etc.} As expected, actual speed-up does not increase linearly with the ${MS}_f$, but it is still significant. ${MS}_f$ of 1E6 leads to unstable computation and ${MS}_f$ of 1E5 results in erratic forces evolutions. These results are confirmed by high values of the kinetic ($KE$) on internal ($IE$) energies ratio (it should not exceed a few \%). A ${MS}_f$ value of 1E3 is selected as it provides a good balance between computation time reduction and impact on forces, while keeping $\frac{KE}{IE}$ below 1\%. To provide an order of magnitude of CPU computation time, between 10 h and 50 h (depending on the value of $h$) are needed on 4 cores of an Intel i7-5700HQ CPU at 2.7 -- 3.5 GHz.
 
 %
 \begin{table}[!h]
@@ -329,6 +329,7 @@ $MS_f$  & Speed-up & $\hat{F_c}$ & $\hat{F_f}$ & $\frac{KE}{IE}$ (\%)\\
 %
 
 \subsection{Sensitivity study of the results to the number of neurons}
+\label{subsec:nberneu}
 
 The number of neurons on the hidden layers may influence the results. A sensitivity study on the number of neurons for the first hidden layer is carried out to select the ANN providing the best balance between CPU computation time and quality of the results. The study shows no influence on the forces when compared to the built-in Johnson-Cook model, only computation time is influenced (Table \ref{tab:NbNeurons}). A first hidden layer with 9 neurons is therefore selected.
 
