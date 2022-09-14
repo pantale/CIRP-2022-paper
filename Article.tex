@@ -141,7 +141,7 @@ This paper fills the literature gap on oblique cutting by investigating free ort
 \label{ExpSet}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, $h$) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the relative orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table \ref{tab:CutCond} shows the cutting conditions, each is repeated 3 times. \FD{Add infos valeur effort: mean, filter, etc. + get info from section 4}
+A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750°C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, $h$) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the relative orientation of the tool and the sample. Forces are measured with a 3-component Kistler 9257B dynamometer and are amplified by a Kistler 5070A charge amplifier. Acquisition is performed at 3 kHz with a Kistler 5697A2 data acquisition system and the DynoWare software. Table \ref{tab:CutCond} shows the cutting conditions, each is repeated 3 times. \FD{Add infos valeur effort: mean, filter, etc. + get info from section 4: Experimental and numerical forces are filtered with a second-order low-pass Bessel filter at 750 Hz before computing the mean value of the signal at steady state.}
 
 \begin{figure}[h]
 \centering
@@ -311,7 +311,7 @@ MS factors, ${MS}_f$, ranging from 1E6 (theoretical scaling of CPU time of 1000\
 %
 \begin{table}[!h]
 \begin{center}
-\caption{\label{tab:MS} MS sensitivity study (selected $MS_f$ in bold)}
+\caption{\label{tab:MS} MS sensitivity study (selected $MS_f$ in bold)}\FD{Define $\hat{F_c}$, etc. in caption}
 \begin{tabular}{lllll}
 \hline\noalign{\smallskip}
 $MS_f$  & Speed-up & $\hat{F_c}$ & $\hat{F_f}$ & $\frac{KE}{IE}$ (\%)\\
@@ -331,13 +331,13 @@ $MS_f$  & Speed-up & $\hat{F_c}$ & $\hat{F_f}$ & $\frac{KE}{IE}$ (\%)\\
 \subsection{Sensitivity study of the results to the number of neurons}
 \label{subsec:nberneu}
 
-The number of neurons on the hidden layers may influence the results. A sensitivity study on the number of neurons for the first hidden layer is carried out to select the ANN providing the best balance between CPU computation time and quality of the results. The study shows no influence on the forces when compared to the built-in Johnson-Cook model, only computation time is influenced (Table \ref{tab:NbNeurons}). A first hidden layer with 9 neurons is therefore selected.
+The number of neurons on the hidden layers may influence the results. A sensitivity study on the number of neurons for the first hidden layer is carried out to select the ANN providing the best balance between CPU computation time and quality of the results. The results of the study are provided in Table \ref{tab:NbNeurons}. They show no influence on the forces when compared to the built-in Johnson-Cook model, only computation time is influenced. A first hidden layer with 9 neurons is therefore selected as it leads to the lowest CPU computation time increase.
 
 %
 \begin{table}[!h]
 \begin{center}
-\caption{\label{tab:NbNeurons} Sensitivity to the number of neurons of the first layer, $\zeta$
-(selection in bold)}
+\caption{\label{tab:NbNeurons} Sensitivity of the forces to the number of neurons of the first layer, $\zeta$
+(selection in bold)}\FD{Define $\hat{F_c}$, etc. in caption}
 \begin{tabular}{llll}
 \hline\noalign{\smallskip}
 $\zeta$  & Time increase (\%) & $\hat{F_c}$ & $\hat{F_f}$\\
@@ -358,20 +358,21 @@ Built-in & 0 & 1.000 & 1.000\\
 \section{Experimental and numerical results\label{sec:ExpNumResults}}
 \label{Results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Experimental and numerical forces are filtered with a second-order low-pass Bessel filter at 750 Hz before computing the mean value of the signal at steady state. Mean and standard deviation ($2\sigma$) are computed from the 3 experimental values and are shown in Figures 5 to 7. Mean numerical values are plotted inside the experimental bars in Figures 5 to 7.
+\FD{Show chips? + info on side flow? + dedicated subsection on chip thickness?}
+Mean and standard deviation ($2\sigma$) are computed from the 3 experimental values and are shown in Figures \hl{5 to 7}. Mean numerical values are plotted inside the experimental bars in Figures \hl{5 to 7}.
+\FD{sigma deja utilise mais equa (5) devrait etre sigma y - voir avec Olivier}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\columnwidth]{Figures/ExpNum_Forces_v10_40µ_6}
-\caption{Temporal evolutions of experimental (E) and numerical (N) forces at 6°, 10 m/min and 40 \textmu{}m: dispersion around mean experimental values and linear extrapolation of numerical values in dashed}
+\caption{Temporal evolutions of experimental (E) and numerical (N) forces at 6°, 10 m/min and 40 \textmu{}m: dispersion around mean experimental values and linear extrapolation of numerical values in dashed}\FD{Style of legend different than text}
 \label{ExpNum_Forces_v10_40µ_6}
 \end{figure}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\columnwidth]{Figures/Fx_0}
-\caption{Comparison of experimental (E) and numerical (N) cutting forces at 0°}
+\caption{Comparison of experimental (E) and numerical (N) cutting forces at 0°}\FD{Better explain legend in caption, same for other figures}
 \label{Fx_0}
 \end{figure}
 
@@ -409,12 +410,15 @@ Figure 6 shows the results for the feed force, where the two clearest trends are
 Passive force is non-zero for the inclination angle of 6° (Figure 7). As the cutting force, it increases with the uncut chip thickness and it decreases with the cutting speed. Comparison with the experiments is globally the same as for $F_c$, except for a larger difference in the magnitude of $F_p$ (mean difference is 26\%, but it is small in absolute – less than 5 N). The numerical values are mostly not in the 95\% experimental confidence interval.
 Regarding the chips morphology, all of them are continuous. For both the simulation and the experiments, the chip thickness ratio, $\lambda_h$, decreases with the cutting speed because of reduction of friction and it is almost independent of the uncut chip thickness. The mean difference between experimental and numerical $\lambda_h$ is 13\% across the whole range of cutting conditions.
 
+\FD{Check clearly stated that Ff trend is globally NOK: improve friction and mat para also cf. Metals Kuga + increase with h quite low in the exp.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this paper, an experimental study has been carried out in free orthogonal and oblique cutting for Ti6Al4V. It is a reference to assess the performances of the 3D FE model introducing an ANN-based constitutive model and developed in the same conditions. An unpreviously seen wide range of cutting conditions, 36, is considered, including 2 inclination angles.
 Accurate evaluation of fundamental variables in 3D with the absence of tuning of both numerical parameters and model features when cutting conditions and inclination angle are significantly modified is a strong novelty of this work. Only changing the inclination angle to move from free orthogonal to oblique cutting while maintaining the quality of the results has no equivalent in the current literature, moreover as no study on free oblique cutting is available. Predictive abilities of the model make it adequate for development of tools with a straight cutting edge, for example.
+
+\FD{Add biblio}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% The Appendices part is started with the command \appendix;
@@ -425,7 +429,7 @@ Accurate evaluation of fundamental variables in 3D with the absence of tuning of
 
 In this Appendix, we present the values obtained after the training phase of an ANN containing 9 neurons in the first hidden layer and 7 neurons in the second hidden layer.
 
-The training of the neural network was performed using a data set containing $3\,430$ data points defined by:
+The training of the neural network was performed using a data set containing $3\,430$ data points defined by: \FD{Add units for min and max values?}
 \begin{itemize}
 \item $70$ values for $\varepsilon^p\in[0.0,3.0]$, so that $[\varepsilon^p]_{min}=0$ and $[\varepsilon^p]_{max}=3$.
 \item $7$ plastic strain rates $\mdot{\varepsilon}^p\in[1, 10, 50, 500, 5\,000, 50\,000, 500\,000]$, so that $[\ln(\mdot{\varepsilon}^p)]_{min}=0$ and $[\ln(\mdot{\varepsilon}^p)]_{max}=13.12236$.
@@ -433,7 +437,7 @@ The training of the neural network was performed using a data set containing $3\
 \end{itemize}
 
 Stresses in the training dataset ranges from $[\sigma]_{min}=171.44$ to $[\sigma]_{max}=2606.12$.
-The results of the training process are given below for quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$.
+The results of the training process are given below for quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$.\FD{sigma y?}
 
 \begin{equation*}
 \w_1=\left[
