@@ -88,7 +88,6 @@
 \cortext[cor1]{Corresponding author. Tel.: +32 65 45 68}
 
 \author[2]{O. Pantal\'{e}}
-\author[1]{E. Rivi\`{e}re-Lorph\`{e}vre}
 \author[3]{B. Lauwers}
 
 \address[1]{Machine Design and Production Engineering Lab, Research Institute for Science and Material Engineering, UMONS, Belgium}
@@ -140,11 +139,11 @@ The behaviour of the machined material is one of the key aspects of a FE model \
 	\sigma^{y} = \left(A + B\ \varepsilon^{p^n} \right) \left(1 + C\ \ln\frac{{\dot{\varepsilon}}^p}{\dot{\varepsilon}_{0}^{p}}\right) \left(1 - \left[\frac{T - T_{\text{room}}}{T_{\text{melt}} - T_{\text{room}}}\right]^{m}\right)
 \end{equation}
 %
-The flow stress, $\sigma^{y}$, is a function of the plastic strain, $\varepsilon^{p}$, of the plastic strain rate, ${\dot{\varepsilon}}^{p}$, and of the temperature, $T$. It is composed of 3 terms describing independently plastic, viscous and thermal aspects. One of the points in favour of its adoption is the rather limited number of parameters to be identified, 5: $A$, $B$, $C$, $m$ and $n$. $\dot{\varepsilon}_{0}^{p}$ is the reference plastic strain rate, while $T_{\text{room}}$ and $T_{\text{melt}}$ are the room temperature and the melting temperature, respectively. More recent models developed based on it, such as the one of Calamaz et al. \cite{calamaz_New_2008}, increase this number of parameters (for Calamaz's particular model to 9). The better (in theory) description of the behaviour is achieved at the cost of greater complexity of the identification process and of a reduction of the link with the physical meaning of the model. When a continuous chip is formed, JC model \hl{has moreover proved to be well-suited} \cite{}.
+The flow stress, $\sigma^{y}$, is a function of the plastic strain, $\varepsilon^{p}$, of the plastic strain rate, ${\dot{\varepsilon}}^{p}$, and of the temperature, $T$. It is composed of 3 terms describing independently plastic, viscous and thermal aspects. One of the points in favour of its adoption is the rather limited number of parameters to be identified, 5: $A$, $B$, $C$, $m$ and $n$. $\dot{\varepsilon}_{0}^{p}$ is the reference plastic strain rate, while $T_{\text{room}}$ and $T_{\text{melt}}$ are the room temperature and the melting temperature, respectively. More recent models developed based on it, such as the one of Calamaz et al. \cite{calamaz_New_2008}, increase this number of parameters (for Calamaz's particular model to 9). The better (in theory) description of the behaviour is achieved at the cost of greater complexity of the identification process and of a reduction of the link with the physical meaning of the model.
 
 One issue of material behaviour modelling for cutting simulation is the identification of the model parameters, moreover as the experimental equipment does not allow to reach the high levels of strains, strain rates and temperature of machining \cite{melkote_Advances_2017}. Inverse identification is an alternative, but the uniqueness of the solution is not always guaranteed \cite{arrazola_Recent_2013, melkote_Advances_2017}. The early work of Özel and Altan \cite{ozel_Determination_2000} used  the least squares method to inversely identify the input parameters of a FE model. Shrot and Bäker \cite{shrot_Determination_2012} then used the Levenberg–Marquardt algorithm for their identification of the constitutive material parameters. They showed that similar results (cutting forces and chip morphology) could be obtained by different sets of parameters and therefore highlighted the non-uniqueness of the solution of the inverse problem. In addition to the flow stress parameters, Klocke et al. \cite{klocke_Orthogonal_2013} also identified the damage parameters. In more recent works, such as Bosetti et al. \cite{bosetti_Identification_2013} and Denkena et al. \cite{denkena_Inverse_2015}, the approach to tackle the inverse identification problem is moving from optimisation to Artificial Intelligence (AI) based methods. The Downhill Simplex Algorithm (DSA) is adopted by Bergs et al. \cite{bergs_Determination_2020} and by Hardt et al. \cite{hardt_Investigations_2021} for AISI 1045. Stampfer et al. \cite{stampfer_Material_2021} also selected the DSA when dealing with AISI 4140 tempered at 3 different temperatures. In \cite{hardt_Application_2021}, Hardt et al. showed that the Particle Swarm Optimization (PSO) was more efficient to solve the inverse problem than the Downhill Simplex Algorithm, even if computation time is still significant. In an effort to reduce it, an Efficient Global Optimization (EGO) algorithm has recently been introduced by Kugalur Palanisamy et al. \cite{kugalurpalanisamy_Identification_2022}. They simultaneously identified the parameters of the material constitutive model and of the friction model for Ti6Al4V. Most of these works highlight the non-uniqueness of the identification and they all require the definition of the analytical expression of the constitutive model.
 
-This paper fills the literature gap on oblique cutting by investigating free orthogonal and oblique 3D cutting configurations from both the experimental and the numerical points of view. An Artificial Neural Network (ANN), introduced in Pantalé et al. \cite{pantale_Efficient_2022}, is implemented in a FE cutting model for the first time instead of the analytical JC law. A broad range of cutting speeds (6), uncut chip thicknesses (3) and inclination angles (2) resulting in 36 different conditions are considered to demonstrate the predictive ability of the FE model for fundamental variables. No assumption is made about the geometry of the machined workpiece in the model (i.e. its width is the same as in the experiments), while keeping computation time relevant for industrial applications. The developments apply to the titanium alloy Ti6Al4V.
+This paper fills the literature gap on oblique cutting by investigating free orthogonal and oblique 3D cutting configurations from both the experimental and the numerical points of view. An Artificial Neural Network (ANN), introduced in Pantalé et al. \cite{pantale_Efficient_2022}, is implemented in a FE cutting model for the first time instead of the analytical JC law. A broad range of cutting speeds (6), uncut chip thicknesses (3) and inclination angles (2) resulting in 36 different conditions are considered to demonstrate the predictive ability of the FE model for fundamental variables. The main goals of a predictive model are the accurate modelling of the trends of the results when the conditions change and predicted values in good agreement with the experimental ones (exact values are not looked for due to experimental dispersions). This type of models aims at supporting future choices and developments without the need of experimental data. No assumption is made about the geometry of the machined workpiece in the model (i.e. its width is the same as in the experiments), while keeping computation time relevant for industrial applications. The developments apply to the titanium alloy Ti6Al4V.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental setup}
@@ -153,7 +152,7 @@ This paper fills the literature gap on oblique cutting by investigating free ort
 
 A 3-axis GF Mikron VCE 600 Pro milling machine is used to carry out dry free orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at 750\textdegree{}C for 1 h followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample includes 3 ribs of 1 mm in width (width of the tool is 6 mm) and 10 mm in length. The test consists of removing the upper layer (its height is the uncut chip thickness, $h$) of one rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (max. value of 40 m/min). The tool cutting edge inclination, $\lambda_s$, results from the relative angular orientation of the tool and the sample. Table \ref{tab:CutCond} shows the cutting conditions: 6 cutting speeds, 3 uncut chip thicknesses and 2 inclination angles, each is repeated 3 times.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/ExpSetup} % 140 mm, 1.5\columnwidth
 \caption{Experimental setup}
@@ -197,7 +196,7 @@ All the chips are collected and observed with a Dino Lite digital microscope AM7
 
 The CEL formulation is adopted to model the dry free orthogonal and oblique cutting tests with Abaqus/Explicit 2020. The 3D model is composed of a fixed Lagrangian tool and a Eulerian workpiece (Figure \ref{BC}). Chip formation occurs by plastic flow across the Eulerian domain with no mesh distortion. The Eulerian formulation enables to form chips without damage properties, removing modelling assumptions. These two characteristics contribute to cutting models providing accurate results and realistic chips \cite{ducobu_Application_2016}.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/BC} % 90 mm, \columnwidth
 \caption{Boundary conditions and schematic initial geometry of the model}
@@ -206,7 +205,7 @@ The CEL formulation is adopted to model the dry free orthogonal and oblique cutt
 
 As shown in Figure \ref{FEConfig}, the full width of the workpiece, i.e. a rib in the experiments, (1 mm) is modelled. To allow chip formation and side flow, the Eulerian domain is wider (it includes the volume in which material can move). The volume above the initial workpiece is also meshed with Eulerian elements for the same reasons. As in the experiments and to fulfil the hypothesis of free orthogonal and oblique cutting, the tool is wider than the workpiece (it is of 1.1 mm in the model and of 6 mm in the experiments). It is very important to stress that the models are the same for both inclination angles: they only differ by the rotation of the tool of 6\textdegree{} about Y axis as in the experiments (Figure \ref{FEConfig}). This, coupled to the absence of assumptions when developing the models, contributes to make the models predictive: no input is changed when cutting conditions do.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/FEConfig}
 \caption{Configuration of the FE model for $\lambda_s$ = 6\textdegree{}}
@@ -265,6 +264,7 @@ All the friction energy is converted into heat. Table \ref{tab:fricHeat} shows t
 \begin{tabular}{lll}
 \hline\noalign{\smallskip}
 Cutting speed, $v_c$ (m/min) & $\mu$ & $\beta$\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
 5 & 0.24 & 1\\
 7.5 & 0.22 & 0.89\\
 10 & 0.21 & 0.80\\
@@ -291,7 +291,7 @@ The proposed approach also allows, as shown in Pantalé et al. \cite{pantale_Eff
 
 In order to verify the influence of the complexity of the neural network on the numerical results of the simulation and the computing time, several architectures of ANN are tested thereafter (in \ref{subsec:nberneu}). The chosen global architecture has 2 hidden layers with a variable number of neurons for the first hidden layer ($\zeta$ = 9 to 17) and 7 neurons for the second hidden layer, 3 inputs (plastic strain, $\varepsilon^p$, plastic strain rate, ${\dot{\varepsilon}}^p$, and temperature, $T$) and one output (the yield stress, $\sigma^y$). The global architecture of this kind of ANN is given in Figure \ref{ANN} for 9 neurons in the first hidden layer. Conforming to Pantalé et al. \cite{pantale_Efficient_2022}, this ANN is referred after the terminology ANN 3-9-7-1-sig, because it has 3 inputs, 9 neurons in the first hidden layer, 7 neurons in the second hidden layer, 1 output and a sigmoid activation function.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 90 mm]{Figures/ANN}
 \caption{Architecture of the ANN 3-9-7-1-sig used for the flow law}
@@ -326,7 +326,7 @@ Then, the output of the neurons in the second hidden layer are given by equation
 
 So, the output of the ANN is therefore given by equation (\ref{eq:ANN-vonMises}).
 \begin{equation}
-\sigma =  \left([\sigma]_{max}-[\sigma]_{min}\right) \left(\overrightarrow{w}^T \dotp \overrightarrow{y_2} + b\right) + [\sigma]_{min} \label{eq:ANN-vonMises}
+\sigma^y =  \left([\sigma^y]_{max}-[\sigma^y]_{min}\right) \left(\overrightarrow{w}^T \dotp \overrightarrow{y_2} + b\right) + [\sigma^y]_{min} \label{eq:ANN-vonMises}
 \end{equation}
 
 In equations (\ref{eq:ANN-preprocess}) to (\ref{eq:ANN-vonMises}), quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$ are given by the training procedure of the ANN. Corresponding values for an ANN containing 9 neurons in the first hidden layer are reported in \ref{sec:appendix-1}. Quantities $[\ ]_{min}$ and $[\ ]_{max}$  are the boundaries of the range of the corresponding field during the training phase, values are also given in \ref{sec:appendix-1}.
@@ -400,86 +400,137 @@ Built-in & 0 & 1.000 & 1.000\\
 \section{Experimental and numerical results\label{sec:ExpNumResults}}
 \label{Results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-\FD{Show chips? + info on side flow? + dedicated subsection on chip thickness? (give also results in a plot?)}
-Mean and standard deviation ($2\sigma$) are computed from the 3 experimental values and are shown in Figures \hl{5 to 7}. Mean numerical values are plotted inside the experimental bars in Figures \hl{5 to 7}.
-\FD{sigma deja utilise mais equa (5) devrait etre sigma y - voir avec Olivier}
-\FD{Add a table with mean differences as a kind of summary of the results?}
 
-\begin{figure}[h]
+An example of temporal evolutions of numerical and experimental forces is plotted for the 3 directions in Figure \ref{ExpNum_Forces_v10_40µ_6} at $\lambda_s = 6$\textdegree{}, $v_c = 10$ m/min and $h = 40$ \textmu{}m. Computation of the FE models is carried out until a few microseconds after the steady state is reached. Then, linear extrapolation (dashed line between the two last markers in Figure \ref{ExpNum_Forces_v10_40µ_6}) is used to provide numerical values during the same time range as the experimental values. Mean and standard deviation ($2\,\sigma$) are computed from the 3 experimental values. The resulting dispersion is plotted in Figure \ref{ExpNum_Forces_v10_40µ_6} around the mean values of each forces. Steady state takes more time to be reached for the experiments than in the numerical model, and particularly for the cutting force. Dispersion around the mean force evolution is larger for the feed force than for the cutting force, while the mean feed force value is 46\% of the mean cutting force value. The numerical cutting force is very close to the experimental mean cutting force; it is only 4\% larger). This difference is computed by
+%
+\begin{equation}\label{eq:diff}
+	\Delta i = \frac{\left|i^\text{(sim)} - i^\text{(exp)}\right|}{i^\text{(exp)}}\times 100
+\end{equation}
+%
+
+ The numerical feed force is underestimated by the model, but it is at the boundary of the 95\% experimental confidence interval. The numerical passive force difference is also underestimated, but it is not in the narrower experimental dispersion. Difference between the mean values of experimental and numerical feed and passive forces is 25\%. \hl{This value for the feed force\ldots + [x] For the passive force\ldots + [x]}
+
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/ExpNum_Forces_v10_40µ_6}
-\caption{Temporal evolutions of experimental (E) and numerical (N) forces at 6\textdegree{}, 10 m/min and 40 \textmu{}m: dispersion around mean experimental values and linear extrapolation of numerical values in dashed}
+\caption{Temporal evolutions of experimental (E) and numerical (N) forces at $\lambda_s = 6$\textdegree{}, $v_c = 10$ m/min and $h = 40$ \textmu{}m: dispersion around mean experimental values and linear extrapolation of numerical values in dashed}
 \label{ExpNum_Forces_v10_40µ_6}
 \end{figure}
 
-\begin{figure}[h]
+Numerical chips at $v_c = 10$ m/min and $h = 40$ \textmu{}m for $\lambda_s = 0$\textdegree{} and $\lambda_s = 6$\textdegree{} are provided in Figures \ref{ChipsNum} and \ref{ChipsNumBack}. When the cutting edge inclination is 0\textdegree{}, both sides of the chip are identical and a symmetry plane can be drawn in the middle of the workpiece (Figure \ref{ChipsNumBack} (a)). On the contrary, for the cutting edge inclination of 6\textdegree{}, the chip is not aligned with the workpiece anymore. The chip bends on one side due to the orientation of the tool and the symmetry is lost for both the geometry, and the thermal and mechanical fields as highlighted in Figure \ref{ChipsNumBack} (b). This produces helical chips for the inclination angle of 6\textdegree{} as in the experiments. Figure \ref{ChipNumTop} shows the variation of the chip thickness across its width: it is thicker in the middle (i.e. the body of the chip) than on its sides. This stresses on the importance of a 3D modelling, even for the orthogonal cutting configuration as already highlighted \hl{by} \cite{Outeiro? Ambrosini? Hardt? Duco}. 3D modelling also allows to reproduce the side flow occurring in the experiments for both cutting edge inclination values (Figure \ref{ChipsNum}), contrary to a 2D \hl{model} \cite{}. Although this leads to higher computation times, future cutting models should be in 3D, even when orthogonal cutting is considered. In this case, it is recommended to take advantage of the symmetry of the configuration to reduce computation time. This simplification has not been included in this study to avoid any difference in the FE models between the 2 cutting edge inclinations.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width = 140 mm]{Figures/ChipsNum}
+\caption{Temperature contours (in K) of the numerical chip after 1.5 ms at $v_c = 10$ m/min, $h = 40$ \textmu{}m and (a) $\lambda_s = 0$\textdegree{} and (b) $\lambda_s = 6$\textdegree{}}
+\label{ChipsNum}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width = 140 mm]{Figures/ChipsNumBack}
+\caption{Temperature contours (in K) of the back of the numerical chip (tool is removed) after 1.5 ms at $v_c = 10$ m/min, $h = 40$ \textmu{}m and (a) $\lambda_s = 0$\textdegree{} and (b) $\lambda_s = 6$\textdegree{}}
+\label{ChipsNumBack}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width = 140 mm]{Figures/ChipNumTop}
+\caption{Temperature contours (in K) of the top of the numerical chip after 1.5 ms at $v_c = 10$ m/min, $h = 40$ \textmu{}m and $\lambda_s = 0$\textdegree{}}
+\label{ChipNumTop}
+\end{figure}
+
+Mean values of the experimental forces and their dispersion are shown in Figures \ref{Fx_0} to \ref{Fz_6} together with the mean numerical values. Passive force values are of course only plotted for $\lambda_s = 6$\textdegree{} as they are equal to zero when $\lambda_s = 0$\textdegree{}.
+
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/Fx_0}
-\caption{Comparison of experimental (E) and numerical (N) cutting forces at 0\textdegree{}}\FD{Better explain legend in caption, same for other figures}
+\caption{Comparison of experimental (E) and numerical (N) cutting forces at the cutting edge inclination of 0\textdegree{} for the 3 uncut chip thicknesses (40, 60 and 80 \textmu{}m) and the 6 cutting speeds (5, 7.5, 10, 20, 30 and 40 m/min)}
 \label{Fx_0}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/Fx_6}
-\caption{Comparison of experimental (E) and numerical (N) cutting forces at 6\textdegree{}}
+\caption{Comparison of experimental (E) and numerical (N) cutting forces at the cutting edge inclination of 6\textdegree{} for the 3 uncut chip thicknesses (40, 60 and 80 \textmu{}m) and the 6 cutting speeds (5, 7.5, 10, 20, 30 and 40 m/min)}
 \label{Fx_6}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/Fy_0}
-\caption{Comparison of experimental (E) and numerical (N) feed forces at 0\textdegree{}}
+\caption{Comparison of experimental (E) and numerical (N) feed forces at the cutting edge inclination of 0\textdegree{} for the 3 uncut chip thicknesses (40, 60 and 80 \textmu{}m) and the 6 cutting speeds (5, 7.5, 10, 20, 30 and 40 m/min)}
 \label{Fy_0}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/Fy_6}
-\caption{Comparison of experimental (E) and numerical (N) feed forces at 6\textdegree{}}
+\caption{Comparison of experimental (E) and numerical (N) feed forces at the cutting edge inclination of 6\textdegree{} for the 3 uncut chip thicknesses (40, 60 and 80 \textmu{}m) and the 6 cutting speeds (5, 7.5, 10, 20, 30 and 40 m/min)}
 \label{Fy_6}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/Fz_6}
-\caption{Comparison of experimental (E) and numerical (N) passive forces at 6\textdegree{}}
+\caption{Comparison of experimental (E) and numerical (N) passive forces at the cutting edge inclination of 6\textdegree{} for the 3 uncut chip thicknesses (40, 60 and 80 \textmu{}m) and the 6 cutting speeds (5, 7.5, 10, 20, 30 and 40 m/min)}
 \label{Fz_6}
 \end{figure}
 
-\begin{figure}[h]
+The increase of the cutting force with the uncut chip thickness is clearly observed in Figures \ref{Fx_0} and \ref{Fx_6} for both experimental and numerical results at the 2 inclination angles, as well as the decrease of the force with the increase in the cutting speed. This shows temperature softening domination on strain rate hardening for Ti6Al4V and that it is accurately modelled. The increase of the inclination angle from 0\textdegree{} to 6\textdegree{} slightly reduces the cutting force; this is well captured by the model. For cutting speeds of 20--40 m/min and inclination angle of 0\textdegree{}, $F_c$ is almost constant with the cutting speed for uncut chip thicknesses of 40 \textmu{}m and 60 \textmu{}m, while it slightly decreases for 80 \textmu{}m; this small stabilisation is less marked for the modelling.
+
+An increase in the deviation around the mean value with the cutting speed is noted for values above 10 m/min. All numerical values are within a confidence interval of 95\% of the experiments (35 out of 36 conditions are within a confidence interval of 68\%) and the mean difference with the experiments is 3\%, which is remarkable, moreover given the wide range of cutting conditions considered and the absence of tuning of the model. This highlights the predictive ability of the FE model for both inclination angles.
+
+Figures \ref{Fy_0} and \ref{Fy_6} show the results for the feed force, where the two clearest trends for the experiments are its decrease with inclination angle and its increase with the uncut chip thickness (even if it is smaller that the expectations). For 80 \textmu{}m, $F_f$ globally decreases with $v_c$ in the experiments. For 40 \textmu{}m and 60 \textmu{}m, the force decreases at lower $v_c$ and then increases for 0\textdegree{}, while a decrease is observed at all $v_c$ for 6\textdegree{}. For the numerical values, the global trend is the same for the 3 uncut chip thicknesses and both inclination angles: a decrease for the lowest $v_c$ values and then an increase. It must be noted that the numerical model does not handle correctly the feed force trends: as clearly shown by Figure \ref{Fy_6}, the numerical forces have globally an increasing trend with the cutting speed, while their mean value mostly decreases when the uncut chip thickness increases. Differences between the mean numerical and experimental values increase with the uncut chip thickness: forces are closer at 40 \textmu{}m than at 80 \textmu{}m. The numerical values are mostly not within the 95\% confidence interval (it has no clear evolution with the cutting conditions). Coupled with the differences in trends, it shows that $F_f$ is less well modelled (mean difference is 35\%) than $F_c$ as usual in FE modelling of the cutting \hl{process} \cite{}. The influence of the uncut chip thickness on the feed force should therefore be improved. Material constitutive model parameters are known to have an impact on the forces (and on the chip \hl{morphology)} \cite{duco}. The friction model should be improved as well to enhance the results.
+
+Passive force is non-zero for the inclination angle of 6\textdegree{} (Figure \ref{Fz_6}). As the cutting force, it increases with the uncut chip thickness and it decreases with the cutting speed. Comparison with the experiments is globally the same as for $F_c$, except for a larger difference in the magnitude of $F_p$ (mean difference is 26\%, but it is small in absolute – less than 5 N). The numerical values are mostly not in the 95\% experimental confidence interval.
+
+Regarding the chips morphology, all the chips are continuous. For both the simulation and the experiments, the chip thickness ratio, $\lambda_h$:
+\begin{equation}
+\lambda_h = \frac{h'}{h}
+\end{equation}
+with $h$ the uncut chip thickness and $h'$ the chip thickness, is almost independent of the uncut chip thickness. It is slightly reduced from $\lambda_s = 0$\textdegree{} to $\lambda_s = 6$\textdegree{}, meaning that the chip thickness is reduced with the inclination angle. This influence is underestimated by the model: the reduction of $\lambda_h$ is lower than in the experiments. The mean difference between experimental and numerical $\lambda_h$ is 17\% across the whole range of cutting conditions. The chip thickness ratio decreases with the cutting speed because of the reduction of friction, which is correctly captured by the model. As for the feed force, the results should be improved by more complex friction models and a set of material constitutive parameters for which the identification includes the forces and the chip thickness \cite{kugalurpalanisamy_Identification_2022}.
+
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/h0}
-\caption{Comparison of experimental (E) and numerical (N) chip thickness ratios at 0\textdegree{}}
+\caption{Comparison of experimental (E) and numerical (N) chip thickness ratios at the cutting edge inclination of 0\textdegree{} for the 3 uncut chip thicknesses (40, 60 and 80 \textmu{}m) and the 6 cutting speeds (5, 7.5, 10, 20, 30 and 40 m/min)}
 \label{h0}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
 \includegraphics[width = 140 mm]{Figures/h6}
-\caption{Comparison of experimental (E) and numerical (N) chip thickness ratios at 6\textdegree{}}
+\caption{Comparison of experimental (E) and numerical (N) chip thickness ratios at the cutting edge inclination of 6\textdegree{} for the 3 uncut chip thicknesses (40, 60 and 80 \textmu{}m) and the 6 cutting speeds (5, 7.5, 10, 20, 30 and 40 m/min)}
 \label{h6}
 \end{figure}
 
-\hl{+ fig with sim chip and show that it is helical/spiral at 6 deg}
-\hl{+ Chip thickness is globally lower at 6 deg than 0 deg}
-\hl{+ Show side flow, non-uniform chip thickness}
+Differences computed according to equation \ref{eq:diff} \hl{+ comment} and link to Table \ref{tab:Synth}
 
-The increase of the cutting force with the uncut chip thickness is clearly observed in Figure 5 for both experimental and numerical results at the 2 inclination angles, as well as the decrease of the force with the increase in the cutting speed. This shows temperature softening domination on strain rate hardening for Ti6Al4V and that it is accurately modelled. The increase of the inclination angle from 0\textdegree{} to 6\textdegree{} reduces the cutting force; this is well captured by the model. For cutting speeds of 20-40 m/min, $F_c$ is almost constant for 40 \textmu{}m and 60 \textmu{}m, while it slightly decreases for 80 \textmu{}m; this small stabilisation is less marked for the model.
-Increase in the deviation around the mean value with the cutting speed is noted for values above 10 m/min. All numerical values are within a confidence interval of 95\% of the experiments (35 out of 36 conditions are within a confidence interval of 68\%) and the mean difference with the experiments is 3\%, which is remarkable, moreover given the wide range of cutting conditions considered. This highlights the predictive qualities of the FE model for both inclination angles.
-Figure 6 shows the results for the feed force, where the two clearest trends are its decrease with inclination angle and its increase with the uncut chip thickness for both experimental and numerical results. For 80 \textmu{}m, $F_f$ globally decreases with $v_c$ in the experiments. For 40 and 60 \textmu{}m, the force decreases at lower $v_c$ and then increases for 0\textdegree{}, while a decrease is observed at all $v_c$ for 6\textdegree{}. For the numerical values, the global trend is the same for the 3 uncut chip thicknesses and both inclination angles: a decrease for the lowest $v_c$ values and then an increase. The numerical values are mostly not within the 95\% confidence interval (it has no clear evolution with the cutting conditions). Coupled with the differences in trends, it shows that $F_f$ is less well modelled (mean difference is 35\%) as usual in FE modelling of the cutting process. Improving the friction model should enhance the results.
-Passive force is non-zero for the inclination angle of 6\textdegree{} (Figure 7). As the cutting force, it increases with the uncut chip thickness and it decreases with the cutting speed. Comparison with the experiments is globally the same as for $F_c$, except for a larger difference in the magnitude of $F_p$ (mean difference is 26\%, but it is small in absolute – less than 5 N). The numerical values are mostly not in the 95\% experimental confidence interval.
-Regarding the chips morphology, all of them are continuous. For both the simulation and the experiments, the chip thickness ratio, $\lambda_h$, decreases with the cutting speed because of reduction of friction and it is almost independent of the uncut chip thickness. The mean difference between experimental and numerical $\lambda_h$ is 13\% across the whole range of cutting conditions.
+%
+\begin{table}[!h]
+\begin{center}
+\caption{\label{tab:Synth} Synthetic overview of the results: differences between the experimental and the numerical results (mean difference for each cutting edge inclination, and maximal, minimal and mean differences for all the conditions) for the cutting force, $\Delta F_c$, the feed force, $\Delta F_f$, the passive force, $\Delta F_p$, and the chip thickness ratio, $\Delta \lambda_h$}
+\begin{tabular}{lllll}
+\hline\noalign{\smallskip}
+Difference & $\Delta F_c$ (\%) & $\Delta F_f$ (\%) & $\Delta F_p$ (\%) & $\Delta \lambda_h$ (\%)\\
+\hline\noalign{\smallskip}
+Mean $\lambda_s = 0$\textdegree{} & 3 & 38 & -- & 14\\
+Mean $\lambda_s = 6$\textdegree{} & 4 & 40 & 26 & 21\\
+Max global & 10 & 60 & 29 & 38\\
+Min global & 1 & 10 & 19 & 2\\
+Mean global & 4 & 39 & 26 & 17\\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+\end{tabular}
+\end{center}
+\end{table}
+%
 
-\FD{Check clearly stated that Ff trend is globally NOK: improve friction and mat para also cf. Metals Kuga + increase with h quite low in the exp.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this paper, an experimental study has been carried out in free orthogonal and oblique cutting for Ti6Al4V. It is a reference to assess the performances of the 3D FE model introducing an ANN-based constitutive model and developed in the same conditions. An unpreviously seen wide range of cutting conditions, 36, is considered, including 2 inclination angles.
-Accurate evaluation of fundamental variables in 3D with the absence of tuning of both numerical parameters and model features when cutting conditions and inclination angle are significantly modified is a strong novelty of this work. Only changing the inclination angle to move from free orthogonal to oblique cutting while maintaining the quality of the results has no equivalent in the current literature, moreover as no study on free oblique cutting is available. Predictive abilities of the model make it adequate for development of tools with a straight cutting edge, for example.
-
-\hl{this works opens possibilities in both 3D free orthogonal cutting and ANN based material behaviours}
+In this paper, an experimental study has been carried out in free orthogonal and oblique cutting of the titanium alloy Ti6Al4V. It is a reference to assess the performances of the 3D FE model introducing an ANN-based constitutive model and developed in the same conditions. An unpreviously seen wide range of cutting conditions, 36, is considered, including 2 cutting edge inclinations. Accurate evaluation of fundamental variables in 3D with the absence of tuning of both numerical parameters and model features when cutting conditions and inclination angle are significantly modified is a strong novelty of this work. Only changing the inclination angle to move from free orthogonal to oblique cutting while maintaining the quality of the results has no equivalent in the current literature, moreover as no study on free oblique cutting is available. Predictive abilities of the model make it adequate for development of tools with a straight cutting edge, for example, providing the modelling of the feed force is improved if it is relevant for the study. This work moreover demonstrates the ability to model materials behaviour with ANN and opens possibilities in this promising direction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% References
@@ -524,15 +575,15 @@ Accurate evaluation of fundamental variables in 3D with the absence of tuning of
 
 In this Appendix, we present the values obtained after the training phase of an ANN containing 9 neurons in the first hidden layer and 7 neurons in the second hidden layer.
 
-The training of the neural network was performed using a data set containing $3\,430$ data points defined by: \FD{Add units for min and max values?}
+The training of the neural network was performed using a data set containing $3\,430$ data points defined by:
 \begin{itemize}
 \item $70$ values for $\varepsilon^p\in[0.0,3.0]$, so that $[\varepsilon^p]_{min}=0$ and $[\varepsilon^p]_{max}=3$.
-\item $7$ plastic strain rates $\mdot{\varepsilon}^p\in[1, 10, 50, 500, 5\,000, 50\,000, 500\,000]$, so that $[\ln(\mdot{\varepsilon}^p)]_{min}=0$ and $[\ln(\mdot{\varepsilon}^p)]_{max}=13.12236$.
-\item  $7$ temperatures $T\in[293, 400, 500, 700, 900, 1\,200, 1\,500]$, so that $[T]_{min}=293$ and $[T]_{max}=1\ 500$.
+\item $7$ plastic strain rates $\mdot{\varepsilon}^p\in[1, 10, 50, 500, 5\,000, 50\,000, 500\,000]$, so that $[\ln(\mdot{\varepsilon}^p)]_{min}=0$ and $[\ln(\mdot{\varepsilon}^p)]_{max}=13.12236$. \FD{Add units to values?}
+\item  $7$ temperatures $T\in[293, 400, 500, 700, 900, 1\,200, 1\,500]$, so that $[T]_{min}=293$ and $[T]_{max}=1\ 500$. \FD{Add units to values?}
 \end{itemize}
 
-Stresses in the training dataset ranges from $[\sigma]_{min}=171.44$ to $[\sigma]_{max}=2606.12$.
-The results of the training process are given below for quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$.\FD{sigma y?}
+Stresses in the training dataset ranges from $[\sigma^y]_{min}=171.44$ to $[\sigma^y]_{max}=2606.12$.
+The results of the training process are given below for quantities $\w_1$, $\w_2$, $\overrightarrow{w}$, $\overrightarrow{b_1}$, $\overrightarrow{b_2}$ and $b$.
 
 \begin{equation*}
 \w_1=\left[
