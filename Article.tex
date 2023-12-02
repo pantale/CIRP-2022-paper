@@ -88,8 +88,26 @@
 % The highlight comment command can then be used in the text: \FD{This is an example comment!}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% To remove "Preprint submitted to Journal" at the bottom of the 1st page
+\makeatletter
+\def\ps@pprintTitle{%
+ \let\@oddhead\@empty
+ \let\@evenhead\@empty
+ \def\@oddfoot{}%
+ \let\@evenfoot\@oddfoot}
+\makeatother
+
+\makeatletter
+\def\ps@pprintTitle{
+  \let\@oddhead\@empty
+  \let\@evenhead\@empty
+  \def\@oddfoot{\textit{\small{\hfill\today}}}
+  \def\@evenfoot{\thepage\hfill}}
+\makeatother
 
 \journal{Journal}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
