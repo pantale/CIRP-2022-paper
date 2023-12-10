@@ -116,12 +116,12 @@
 
 \title{Predictive 3D modelling of free oblique cutting introducing an ANN-based material flow law with experimental validation over a wide range of conditions}
 
-\author[1]{F. Ducobu\corref{cor1}}
+\author[1]{François Ducobu\corref{cor1}}
 \ead{Francois.Ducobu@umons.ac.be}
 \cortext[cor1]{Corresponding author. Tel.: +32 65 45 68}
 
-\author[2]{O. Pantal\'{e}}
-\author[3]{B. Lauwers}
+\author[2]{Olivier Pantal\'{e}}
+\author[3]{Bert Lauwers}
 
 \address[1]{Machine Design and Production Engineering Lab, Research Institute for Science and Material Engineering, UMONS, Belgium}
 \address[2]{Laboratoire G\'{e}nie de Production, INP/ENIT, Universit\'{e} de Toulouse, Tarbes, France}
@@ -183,7 +183,7 @@ This paper fills the gap in the oblique cutting literature by investigating both
 \label{ExpSet}
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A 3-axis GF Mikron VCE 600 Pro milling machine is used to perform dry orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at \qty{750}{\degreeCelsius} for \qty{1}{\hour} followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{fig:ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample has 3 ribs of \qty{1}{\mm} width (the width of the tool is \qty{6}{\mm}) and \qty{10}{\mm} length. The test consists of removing the top layer (its height is the uncut chip thickness, $h$) of a rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (maximum value of \qty{40}{\metre\per\min}). The tool cutting edge inclination, $\lambda_s$, results from the relative angular orientation of the tool and the sample. Table \ref{tab:CutCond} shows the cutting conditions: 6 cutting speeds, 3 uncut chip thicknesses and 2 inclination angles, each repeated 3 times.
+A 3-axis GF Mikron VCE 600 Pro milling machine is used to perform dry orthogonal and oblique cutting tests on Ti6Al4V (grade 5 annealed at \qty{750}{\degreeCelsius} for \qty{1}{\hour} followed by air cooling) with the same kinematics as a shaper. As shown in Figure \ref{fig:ExpSetup}, the tungsten carbide tool (modified LCGN160602-0600-FG, CP500 from SECO) is fixed on a dedicated holder (modified CFHN-06 from SECO) and the sample to be cut is clamped in the spindle (no rotation is allowed during the test). The top of the sample has 3 ribs of \qty{1}{\mm} width (the width of the tool is \qty{6}{\mm}) and \qty{10}{\mm} length. The test consists of removing the top layer (its height is the uncut chip thickness, $h$) of a rib at the prescribed cutting speed, $v_c$. The cutting speed is provided by the feed rate, $v_f$, of the machine (maximum value of \qty{40}{\metre\per\min}). The tool cutting edge inclination, $\lambda_s$, results from the relative angular orientation of the tool and the sample. Table \ref{tab:CutCond} shows the cutting conditions: 6 cutting speeds, 3 uncut chip thicknesses and 2 inclination angles, each repeated 3 times. \FD{Add comment to link with SECO's recommendations for the standard tool + reference}
 
 \begin{figure}[!h]
 \centering
@@ -601,6 +601,33 @@ An experimental and numerical study of the orthogonal and oblique free cutting o
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Statements \& Declarations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent\textbf{Funding}
+
+\noindent The authors declare that this research received no external funding.\\
+
+\noindent\textbf{Competing Interests}
+
+\noindent The authors have no relevant financial or non-financial interests to disclose.\\
+
+%\textbf{Availability of data and material}
+%
+%\textbf{Code availability}
+%
+%\textbf{Ethics approval and consent to participate}
+%
+%This article does not contain any studies with human participants or animals performed by any 
+%authors.
+%
+%\textbf{Consent for publication}
+
+\noindent\textbf{Author Contributions}
+
+\noindent François Ducobu contributed to Data curation, Formal analysis, Investigation, Methodology, Software, Supervision, Validation, Visualization, Writing -- original draft and review \& editing (focussing on non ANN-related aspects). Olivier Pantalé contributed to Data curation, Formal analysis, Investigation, Methodology, Software, Validation, Visualization, Writing -- original draft and review \& editing (focussing on ANN-related aspects). Bert Lauwers contributed to Supervision and Writing -- review \& editing. All authors read and approved the final manuscript.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% References
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
@@ -633,6 +660,7 @@ An experimental and numerical study of the orthogonal and oblique free cutting o
 %
 %% \end{thebibliography}
 %
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% The Appendices part is started with the command \appendix;
