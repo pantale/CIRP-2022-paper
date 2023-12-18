@@ -85,3 +85,21 @@ The authors do not identify an ANN-based material flow law through 3D cutting ex
 9. *For CEL description do authors use an equation of state for Ti6Al4V ? if yes please specify it in your text.* 
 
    We do not use an equation of state for Ti6Al4V in the CEL formulation.
+
+
+
+# reviewer #3
+
+*The paper presents a good scientific contribution for machining simulation by using indirectly the flow stress of the workmaterial.*
+
+1. *It seems that the chip formation is not stabilized in simulations*
+
+2. *Is there a comparison with simulations using directedly the JC flow stress model?*
+
+3. *What about the case of chip segmentation commonly seem when machining TA6V!*
+
+4. *It is judicious to show also what predictions of the flow stress by the  ANN-based material flow law in comparison with the JC flow law for the  case of simple loading uniaxial tension or simple shear! What's the  response of the ANN model in simple solicitations?*
+
+   Such kind of comparison is already published in [1] for example where we compare the predicted flow stress and the experimental results for compression tests on a Gleeble thermo-mechanical simulator. A complete study of the influence of the hyper-parameters on the numerical performance of the ANN has been proposed.
+
+   [1] Pantalé O. (2023). Comparing Activation Functions in Machine Learning for Finite Element Simulations in Thermomechanical Forming. Algorithms, 16(12):357. doi.org/10.3390/a16120537
