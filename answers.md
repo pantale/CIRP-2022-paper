@@ -61,7 +61,7 @@ The authors do not identify an ANN-based material flow law through 3D cutting ex
 
 4. *In page 10 authors said that « In future developments, experimental tests on a Gleeble thermomechanical simulator will be used to generate this network training data ». But in Gleeble tests the maximum strain rates cannot exceed 100 (S-1) which does not represent actual strain rates in cutting.* 
 
-   Je te laisse répondre :-)
+   Maybe this sentence is a little bit short, and in fact we plan to use Gleeble tests to simulate lower strain rate scenarios with a wide range of temperatures and Taylor gas gun tests for higher strain rates. This will help to cover a broad spectrum of strain rates from quasi-static to those representative of cutting processes. The use of the ANN will help this integration since we can easily mix the dataset from the two experimental techniques.
 
 5. *Figure 5 shows Temporal evolutions of experimental (E) and numerical (N) forces. The maximum time value of simulation cutting is 0.06 S. How authors programed this from experimental point of view for numerical validation?* 
 
