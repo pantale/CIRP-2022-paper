@@ -13,10 +13,6 @@ The authors do not identify an ANN-based material flow law through 3D cutting ex
    Another major novelty is the accurate evaluation of the fundamental variables and their trends in 3D, without the need to adjust the numerical parameters and the model characteristics when the cutting conditions and the inclination angle are changed significantly. This is what the authors are used to call a predictive model (by opposition to a model specifically developed and/or tuned to reproduce a given cutting condition and requiring modification to accommodate changes in the cutting conditions). The mere fact of changing the inclination angle from free orthogonal cutting to oblique cutting while maintaining the quality of the results has no equivalent in the current literature, especially since no studies (experimental or numerical) on free oblique cutting are available.
    These aspects of the study are mentioned at the end of the introduction and in the conclusions.
 
-   ```
-   <span style="color:blue">Tu peux peut-être détailler plus les aspects novateurs de la coupe.</span>.
-   ```
-
    [1] Pantalé O., Tize Mha P., Tongne A. (2022). Efficient implementation of non-linear flow law using neural network into the Abaqus Explicit FEM code. Finite Elements in Analysis and Design, 198, 103647. doi.org/10.1016/j.finel.2021.103647 
 
    [2] Pantalé O. (2023). Development and Implementation of an ANN Based Flow Law for Numerical Simulations of Thermo-Mechanical Processes at High Temperatures in FEM Software. Algorithms, 16(1):56. doi.org/10.3390/a16010056 [3] Tize Mha P., Dhondapure P., Jahazi M., Tongne A., Pantalé O. (2023). Interpolation and Extrapolation Performance Measurement of Analytical and ANN-Based Flow Laws for Hot Deformation Behavior of Medium Carbon Steel. Metals, 13(3), 633. doi.org/10.3390/met13030633 
@@ -86,17 +82,22 @@ The authors do not identify an ANN-based material flow law through 3D cutting ex
 
    We do not use an equation of state for Ti6Al4V in the CEL formulation.
 
-
-
 # reviewer #3
 
 *The paper presents a good scientific contribution for machining simulation by using indirectly the flow stress of the workmaterial.*
 
 1. *It seems that the chip formation is not stabilized in simulations*
 
+   The authors assumed that the chip formation "not stabilized" is to be related to steady-state that would not be reached during the simulation. As answered to question 6 from reviewer #2, we double-checked and confirmed that steady-state is reached from 1.5 ms for the cutting conditions of figure 6 (cutting forces in the 3 directions are nearly constant, as well as maximal temperature in the tool, etc.).
+
 2. *Is there a comparison with simulations using directedly the JC flow stress model?*
 
+   Yes, the results of the simulations are compared to the JC flow stress in section 3.4 and quantification is provided in Table 5. It is shown that the proposed approach increases computation time from 6%, depending on the number of neurons of the first layer of the ANN, with no significant impact on the results of the model.
+
 3. *What about the case of chip segmentation commonly seem when machining TA6V!*
+
+   Chip segmentation is out of the scope of this study. It is one of its perspectives as other (than Johnson-Cook) material models including damage, strain softening need to be considered.
+   The cutting conditions of this work produce (mainly due to the low feeds) continuous chips, allowing to focus on the Johnson-Cook flow stress. 
 
 4. *It is judicious to show also what predictions of the flow stress by the  ANN-based material flow law in comparison with the JC flow law for the  case of simple loading uniaxial tension or simple shear! What's the  response of the ANN model in simple solicitations?*
 
